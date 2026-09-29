@@ -27,6 +27,9 @@
   .meta { color:var(--muted); font-size:.85rem; margin-top:6px }
   .examples button { font-size:.85rem; cursor:pointer }
   .heat { overflow-x:auto; margin-top:12px }
+  .scope { font-size:.92rem; color:var(--muted) } .scope b { color:var(--ink) }
+  .warn { margin-top:10px; padding:10px 12px; border-radius:8px; font-size:.92rem;
+          background:rgba(234,160,40,.14); border:1px solid rgba(234,160,40,.45) }
   table.att { border-collapse:collapse; font-size:.75rem }
   table.att td { width:26px; height:24px; text-align:center; border:1px solid var(--line) }
   table.att th { font-weight:400; padding:2px 6px; white-space:nowrap }
@@ -37,7 +40,8 @@
 <body>
 <main>
   <h1>English → Amharic Neural Machine Translation</h1>
-  <p class="sub">LSTM encoder–decoder models trained from scratch on 149k English–Amharic sentence pairs. The corpus is mostly religious and news text, so everyday phrases may be translated less reliably.</p>
+  <p class="sub">LSTM encoder–decoder models trained from scratch on 149k English–Amharic sentence pairs.</p>
+  <div class="card scope" id="scope"></div>
 
   <div class="card">
     <textarea id="text" placeholder="Type an English sentence…">I am going to the university.</textarea>
@@ -52,6 +56,7 @@
   <div class="card">
     <div class="out" id="out"></div>
     <div class="meta" id="meta"></div>
+    <div id="warn"></div>
     <div class="heat" id="heat"></div>
   </div>
 </main>
@@ -75,7 +80,7 @@ function heatmap(r) {
 
 async function go() {
   const text = $("text").value.trim(); if (!text) return;
-  $("go").disabled = true; $("out").textContent = "…"; $("heat").innerHTML = "";
+  $("go").disabled = true; $("out").textContent = "…"; $("heat").innerHTML = ""; $("warn").innerHTML = "";
   try {
     const res = await fetch("/translate", { method:"POST", headers:{"Content-Type":"application/json"},
       body: JSON.stringify({ text, model:$("model").value, beam:+$("beam").value, return_attention:true }) });
@@ -83,10 +88,13 @@ async function go() {
     if (!res.ok) throw new Error(JSON.stringify(r.detail));
     $("out").textContent = r.translation;
     $("meta").textContent = `${r.model} · ${r.latency_ms} ms`;
+    $("warn").innerHTML = (r.warnings || []).map(w => `<div class="warn">⚠ ${esc2(w)}</div>`).join("");
     $("heat").innerHTML = heatmap(r);
   } catch (e) { $("out").textContent = "Error: " + e.message; }
   $("go").disabled = false;
 }
+function esc2(s) { return s.replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+fetch("/scope").then(r => r.json()).then(r => { $("scope").innerHTML = "<b>What this translator handles.</b> " + esc2(r.scope); });
 $("go").onclick = go;
 $("text").addEventListener("keydown", e => { if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) go(); });
 </script>

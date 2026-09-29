@@ -1,11 +1,12 @@
 """Download → clean → deduplicate → split → train SentencePiece → encode.
 
 Run:  python -m src.prepare_data
-Writes data/processed/{train,val,test}.tsv, models/spm_{en,am}.model and
-results/dataset_stats.json.
+Writes data/processed/{train,val,test}.tsv, models/spm_{en,am}.model,
+models/en_word_freq.json and results/dataset_stats.json.
 """
 import json
 import subprocess
+from collections import Counter
 from pathlib import Path
 
 import numpy as np
@@ -13,7 +14,7 @@ import pandas as pd
 import sentencepiece as spm
 
 from . import config as C
-from .text import normalize_am, normalize_en
+from .text import WORD_RE, normalize_am, normalize_en
 
 SPLITS = ["train", "validation", "test"]
 
@@ -156,6 +157,11 @@ def main():
     for name, d in (("train", train), ("val", val), ("test", test)):
         d[["en", "am", "en_len", "am_len"]].to_csv(C.PROC_DIR / f"{name}.tsv", sep="\t", index=False)
         stats[name] = describe(d)
+
+    # English word counts in the training data, shipped with the models so the app can
+    # warn when an input uses words the models have rarely or never seen.
+    freq = Counter(w for s in train["en"] for w in WORD_RE.findall(s))
+    (C.MODEL_DIR / "en_word_freq.json").write_text(json.dumps(dict(freq.most_common()), ensure_ascii=False))
 
     # Unknown-token rate on the test set shows how well the subword vocabularies cover unseen text.
     for lang, sp in (("en", sp_en), ("am", sp_am)):

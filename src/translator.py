@@ -1,5 +1,6 @@
 """Inference pipeline: raw English text → normalized → SentencePiece ids →
 model decoding → detokenized Amharic. Used by evaluation, analysis and the app."""
+import json
 import time
 
 import torch
@@ -7,7 +8,43 @@ import torch
 from . import config as C
 from .data import collate, device, load_tokenizers
 from .models import MODELS, beam_decode, greedy_decode
-from .text import normalize_en
+from .text import WORD_RE, normalize_en
+
+SCOPE_NOTE = (
+    "Works best on complete English sentences (about 5–30 words) about everyday topics, "
+    "family, work, places, society, news and religion, which is what the training data contains. "
+    "It is unreliable for single words, greetings and chat phrases (\"bye\", \"hello\", \"lol\"), "
+    "rare names, technical terms and very long sentences."
+)
+
+
+def load_word_freq():
+    path = C.MODEL_DIR / "en_word_freq.json"
+    return json.loads(path.read_text()) if path.exists() else {}
+
+
+def scope_warnings(text, word_freq):
+    """Plain-language warnings when an input is outside what the models were trained on."""
+    words = WORD_RE.findall(normalize_en(text))
+    warnings = []
+    if len(words) < C.MIN_INPUT_WORDS:
+        warnings.append(f"Very short input ({len(words)} word{'s' if len(words) != 1 else ''}). "
+                        "The model was trained on full sentences, so single words and short phrases "
+                        "are often mistranslated.")
+    if len(words) > C.MAX_INPUT_WORDS:
+        warnings.append(f"Long input ({len(words)} words). Quality drops on sentences this long; "
+                        "try splitting it into shorter sentences.")
+    if word_freq:
+        unseen = sorted({w for w in words if w not in word_freq})
+        rare = sorted({w for w in words if 0 < word_freq.get(w, 0) < C.RARE_WORD_COUNT})
+        if unseen:
+            warnings.append("Never seen in the training data: " + ", ".join(f'"{w}"' for w in unseen)
+                            + ". The model cannot know these words and will guess.")
+        if rare:
+            warnings.append("Rare in the training data: "
+                            + ", ".join(f'"{w}" ({word_freq[w]}×)' for w in rare)
+                            + ". These are likely to be mistranslated.")
+    return warnings
 
 
 def load_model(name, dev=None):
@@ -36,6 +73,7 @@ class Translator:
         self.name = name
         self.model = load_model(name, self.dev)
         self.sp_en, self.sp_am = load_tokenizers()
+        self.word_freq = load_word_freq()
 
     def encode(self, sentences):
         return [ids + [C.EOS] for ids in self.sp_en.encode([normalize_en(s) for s in sentences])]
@@ -66,6 +104,7 @@ class Translator:
             "src_tokens": self.sp_en.id_to_piece(src),
             "tgt_tokens": self.sp_am.id_to_piece(ids_clean) + ["</s>"],
             "latency_ms": round((time.perf_counter() - t0) * 1000, 1),
+            "warnings": scope_warnings(sentence, self.word_freq),
         }
         if attn is not None:
             result["attention"] = attn[:len(ids_clean) + 1].tolist()

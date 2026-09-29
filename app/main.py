@@ -13,7 +13,7 @@ from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from src.translator import Translator  # noqa: E402
+from src.translator import SCOPE_NOTE, Translator  # noqa: E402
 
 TRANSLATORS: dict[str, Translator] = {}
 STATIC = Path(__file__).parent / "static"
@@ -45,9 +45,15 @@ class TranslateResponse(BaseModel):
     translation: str
     model: str
     latency_ms: float
+    warnings: list[str] = []          # set when the input is outside the training scope
     src_tokens: list[str] | None = None
     tgt_tokens: list[str] | None = None
     attention: list[list[float]] | None = None
+
+
+@app.get("/scope")
+def scope():
+    return {"scope": SCOPE_NOTE}
 
 
 @app.get("/health")
@@ -62,7 +68,7 @@ def translate(req: TranslateRequest):
         raise HTTPException(422, "text is empty")
     r = TRANSLATORS[req.model].translate(text, beam=req.beam)
     if not req.return_attention:
-        r = {k: r[k] for k in ("translation", "model", "latency_ms")}
+        r = {k: r[k] for k in ("translation", "model", "latency_ms", "warnings")}
     return r
 
 

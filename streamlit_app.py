@@ -8,7 +8,7 @@ import html
 import streamlit as st
 import torch
 
-from src.translator import Translator
+from src.translator import SCOPE_NOTE, Translator
 
 MODELS = {
     "Attention-LSTM (Bahdanau)": "bahdanau",
@@ -42,9 +42,8 @@ def heatmap_html(r):
 
 
 st.title("English → Amharic Translator")
-st.caption("LSTM encoder–decoder models trained from scratch on 149k English–Amharic sentence pairs. "
-           "The training text is mostly religious and news writing, so short everyday phrases "
-           "(greetings, slang, names) are often translated incorrectly.")
+st.caption("LSTM encoder–decoder models trained from scratch on 149k English–Amharic sentence pairs.")
+st.info("**What this translator handles.** " + SCOPE_NOTE, icon="ℹ️")
 
 if "text" not in st.session_state:
     st.session_state.text = EXAMPLES[0]
@@ -66,6 +65,8 @@ if st.button("Translate", type="primary") or text:
         st.markdown(f"<p style='font-size:2rem;line-height:1.5;margin:.5rem 0'>{html.escape(r['translation'])}</p>",
                     unsafe_allow_html=True)
         st.caption(f"{model_label} · beam {beam} · {r['latency_ms']} ms")
+        for w in r["warnings"]:
+            st.warning(w, icon="⚠️")
         if "attention" in r:
             with st.expander("Attention heatmap (rows = Amharic output, columns = English input)", expanded=True):
                 st.markdown(heatmap_html(r), unsafe_allow_html=True)

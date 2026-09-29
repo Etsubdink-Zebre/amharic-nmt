@@ -114,6 +114,23 @@ Request fields: `text` (required), `model` (`"bahdanau"` = Attention-LSTM, defau
 `beam` (1–10, default 5), `return_attention` (default `false`).
 Response: `{"translation": "...", "model": "bahdanau", "latency_ms": 94}`.
 
+### Translation scope
+
+The models only know what their training data contains: about 149k full sentences, mostly from
+religious and news writing.
+
+| Works well | Unreliable |
+|---|---|
+| Complete sentences of about 5–30 words | Single words and short phrases ("Bye", "Hello") |
+| Everyday topics: family, work, places, society, news, religion | Greetings, chat and slang ("lol", "ok") |
+| Common names (Jesus, Moses, Ethiopia, Addis Ababa) | Rare names, technical and scientific terms |
+| | Very long sentences (over ~50 words) |
+
+Both apps show this note. Each translation also comes with **warnings** when the input is shorter than
+3 words, longer than 50 words, or contains English words that appeared fewer than 30 times
+(or never) in the training data. The counts are in `models/en_word_freq.json`. The API returns
+them in a `warnings` list.
+
 ### Deploying the Streamlit app
 
 1. Sign in at https://share.streamlit.io with GitHub and click **Create app**.

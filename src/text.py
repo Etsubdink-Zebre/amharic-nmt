@@ -44,6 +44,7 @@ _QUOTES = str.maketrans({
 _ETH_PUNCT = str.maketrans({"፡": " ", "፥": "፣", "፦": ":", "፧": "?", "፨": "።"})
 
 _SPACES = re.compile(r"\s+")
+WORD_RE = re.compile(r"[a-z]+(?:'[a-z]+)?")    # English words after normalize_en
 _PRIVATE_USE = re.compile(r"[-]")
 _BRACKET_REF = re.compile(r"\(\s*\d+[\s:,\d]*\)")    # verse references like "(13 36)"
 

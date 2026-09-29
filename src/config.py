@@ -36,3 +36,8 @@ EPOCHS = 15
 PATIENCE = 3               # early stopping on validation loss
 CLIP = 1.0
 MAX_DECODE_LEN = 120
+
+# ---- translation scope (warnings shown by the apps) ------------------------
+RARE_WORD_COUNT = 30       # a word seen fewer times than this in training is likely mistranslated
+MIN_INPUT_WORDS = 3        # the models were trained on full sentences (16 words on average)
+MAX_INPUT_WORDS = 50       # training sentences were capped at 50 subwords

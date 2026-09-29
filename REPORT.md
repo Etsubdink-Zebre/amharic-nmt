@@ -397,10 +397,20 @@ once at start-up, warms them up, and serves:
 
 | Endpoint | Purpose |
 |---|---|
-| `POST /translate` | `{"text": "I am going to the university."}` → `{"translation": "ወደ ዩኒቨርሲቲዬ እሄዳለሁ።", "model": "bahdanau", "latency_ms": 94}`. Optional: `model` (`bahdanau` default, `attention`, `seq2seq`), `beam` (1–10, default 5), `return_attention` (adds tokens and the attention matrix). Invalid input → HTTP 422. |
+| `POST /translate` | `{"text": "I am going to the university."}` → `{"translation": "ወደ ዩኒቨርሲቲዬ እሄዳለሁ።", "model": "bahdanau", "latency_ms": 94}`. Optional: `model` (`bahdanau` default, `attention`, `seq2seq`), `beam` (1–10, default 5), `return_attention` (adds tokens and the attention matrix). The response always includes a `warnings` list (empty when the input is in scope). Invalid input → HTTP 422. |
+| `GET /scope` | The plain-language description of what the translator handles |
 | `GET /health` | Liveness and loaded models |
 | `GET /` | Web UI: input box, example sentences, model and beam selectors, translation, latency, and a live attention heatmap |
 | `GET /docs` | Auto-generated interactive OpenAPI docs |
+
+**Translation scope and input warnings.** Section 4 showed that errors concentrate on rare words,
+names and inputs unlike the training sentences. For example, "Bye" appears only 22 times in
+149k training sentences and is translated as a place-name-like word. Both apps therefore state
+what the system handles (complete sentences on everyday, news and religious topics) and attach a
+warning to any input that is shorter than 3 words, longer than 50 words, or contains a word seen
+fewer than 30 times (or never) in training. The per-word training counts ship with the models in
+`models/en_word_freq.json`. The warnings do not change the translation. They tell the user
+when not to trust it.
 
 **Inference pipeline** (`src/translator.py`), the same code used for evaluation:
 raw English → `normalize_en` (same as training) → SentencePiece ids + `</s>` → encoder →
