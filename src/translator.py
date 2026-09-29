@@ -13,8 +13,9 @@ from .text import WORD_RE, normalize_en
 SCOPE_NOTE = (
     "Works best on complete English sentences (about 5–30 words) about everyday topics, "
     "family, work, places, society, news and religion, which is what the training data contains. "
-    "It is unreliable for single words, greetings and chat phrases (\"bye\", \"hello\", \"lol\"), "
-    "rare names, technical terms and very long sentences."
+    "It is unreliable for single words, greetings and set phrases (\"bye\", \"hello\", \"welcome to …\"), "
+    "chat and slang, rare names, technical terms and very long sentences. "
+    "Common words used in an unusual sense can also be mistranslated."
 )
 
 
@@ -31,6 +32,9 @@ def scope_warnings(text, word_freq):
         warnings.append(f"Very short input ({len(words)} word{'s' if len(words) != 1 else ''}). "
                         "The model was trained on full sentences, so single words and short phrases "
                         "are often mistranslated.")
+    elif text.strip()[-1:] not in ".?!;:\"'”)":
+        warnings.append("Tip: end the sentence with a full stop or question mark. 94% of training "
+                        "sentences do, and unpunctuated fragments tend to be translated like headlines.")
     if len(words) > C.MAX_INPUT_WORDS:
         warnings.append(f"Long input ({len(words)} words). Quality drops on sentences this long; "
                         "try splitting it into shorter sentences.")

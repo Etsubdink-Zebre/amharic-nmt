@@ -127,7 +127,7 @@ religious and news writing.
 | | Very long sentences (over ~50 words) |
 
 Both apps show this note. Each translation also comes with **warnings** when the input is shorter than
-3 words, longer than 50 words, or contains English words that appeared fewer than 30 times
+4 words, has no final punctuation, longer than 50 words, or contains English words that appeared fewer than 30 times
 (or never) in the training data. The counts are in `models/en_word_freq.json`. The API returns
 them in a `warnings` list.
 

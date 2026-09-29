@@ -39,5 +39,5 @@ MAX_DECODE_LEN = 120
 
 # ---- translation scope (warnings shown by the apps) ------------------------
 RARE_WORD_COUNT = 30       # a word seen fewer times than this in training is likely mistranslated
-MIN_INPUT_WORDS = 3        # the models were trained on full sentences (16 words on average)
+MIN_INPUT_WORDS = 4        # full sentences in training (16 words on average; only 2.5 % have ≤ 3)
 MAX_INPUT_WORDS = 50       # training sentences were capped at 50 subwords

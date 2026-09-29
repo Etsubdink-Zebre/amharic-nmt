@@ -407,7 +407,7 @@ once at start-up, warms them up, and serves:
 names and inputs unlike the training sentences. For example, "Bye" appears only 22 times in
 149k training sentences and is translated as a place-name-like word. Both apps therefore state
 what the system handles (complete sentences on everyday, news and religious topics) and attach a
-warning to any input that is shorter than 3 words, longer than 50 words, or contains a word seen
+warning to any input that is shorter than 4 words, lacks final punctuation, is longer than 50 words, or contains a word seen
 fewer than 30 times (or never) in training. The per-word training counts ship with the models in
 `models/en_word_freq.json`. The warnings do not change the translation. They tell the user
 when not to trust it.
