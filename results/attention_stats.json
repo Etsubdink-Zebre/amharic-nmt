@@ -1,0 +1,874 @@
+{
+  "attention": {
+    "stats": {
+      "sentences": 300,
+      "mean_attention_entropy_nats": 0.347,
+      "fraction_monotone_steps": 0.841
+    },
+    "examples": [
+      {
+        "id": 1,
+        "source": "i am going to the university.",
+        "reference": null,
+        "translation": "አሁን ዩኒቨርሲቲ ነኝ።",
+        "figure": "figures/attention_attention_1.png",
+        "top_source_token_per_output": [
+          [
+            "▁አሁን",
+            "</s>",
+            0.7
+          ],
+          [
+            "▁ዩኒቨርሲቲ",
+            "</s>",
+            0.82
+          ],
+          [
+            "▁ነኝ።",
+            ".",
+            0.83
+          ],
+          [
+            "</s>",
+            ".",
+            0.83
+          ]
+        ]
+      },
+      {
+        "id": 2,
+        "source": "the children are playing in the garden.",
+        "reference": null,
+        "translation": "ልጆቹም በምስክሩ ውስጥ ነው።",
+        "figure": "figures/attention_attention_2.png",
+        "top_source_token_per_output": [
+          [
+            "▁ልጆቹ",
+            "</s>",
+            0.99
+          ],
+          [
+            "ም",
+            "</s>",
+            0.99
+          ],
+          [
+            "▁በ",
+            "</s>",
+            1.0
+          ],
+          [
+            "ም",
+            "</s>",
+            0.99
+          ],
+          [
+            "ስ",
+            "</s>",
+            0.9
+          ],
+          [
+            "ክሩ",
+            "</s>",
+            0.97
+          ],
+          [
+            "▁ውስጥ",
+            "</s>",
+            0.65
+          ],
+          [
+            "▁ነው።",
+            ".",
+            0.59
+          ],
+          [
+            "</s>",
+            ".",
+            1.0
+          ]
+        ]
+      },
+      {
+        "id": 3,
+        "source": "she did not eat bread yesterday.",
+        "reference": null,
+        "translation": "ምግብ ለመብላት አልቻለችም።",
+        "figure": "figures/attention_attention_3.png",
+        "top_source_token_per_output": [
+          [
+            "▁ምግብ",
+            "</s>",
+            0.95
+          ],
+          [
+            "▁ለመብላት",
+            "</s>",
+            0.59
+          ],
+          [
+            "▁አል",
+            ".",
+            0.78
+          ],
+          [
+            "ቻ",
+            ".",
+            0.58
+          ],
+          [
+            "ለች",
+            ".",
+            0.99
+          ],
+          [
+            "ም።",
+            ".",
+            1.0
+          ],
+          [
+            "</s>",
+            ".",
+            0.99
+          ]
+        ]
+      },
+      {
+        "id": 4,
+        "source": "jesus said to his disciples: love one another.",
+        "reference": null,
+        "translation": "ኢየሱስ ለደቀ መዛሙርቱን እርስ በርሳቸው ተነጋገሩ።",
+        "figure": "figures/attention_attention_4.png",
+        "top_source_token_per_output": [
+          [
+            "▁ኢየሱስ",
+            ":",
+            1.0
+          ],
+          [
+            "▁ለደቀ",
+            ":",
+            0.97
+          ],
+          [
+            "▁መዛሙርቱ",
+            ":",
+            0.94
+          ],
+          [
+            "ን",
+            "</s>",
+            0.65
+          ],
+          [
+            "▁እርስ",
+            "</s>",
+            0.77
+          ],
+          [
+            "▁በርሳቸው",
+            ":",
+            0.95
+          ],
+          [
+            "▁ተ",
+            ".",
+            0.62
+          ],
+          [
+            "ነጋገሩ",
+            "</s>",
+            0.66
+          ],
+          [
+            "።",
+            ":",
+            0.88
+          ],
+          [
+            "</s>",
+            ".",
+            0.96
+          ]
+        ]
+      },
+      {
+        "id": 5,
+        "source": "jon: i guess that's talking about god.",
+        "reference": "ኢዮብ፣ አምላክ ይመስለኛል።",
+        "translation": "ኢዮብ፣ ስለ አምላክ እነግራለሁ።",
+        "figure": "figures/attention_attention_5.png",
+        "top_source_token_per_output": [
+          [
+            "▁ኢዮብ",
+            "</s>",
+            0.51
+          ],
+          [
+            "፣",
+            "</s>",
+            0.74
+          ],
+          [
+            "▁ስለ",
+            "</s>",
+            1.0
+          ],
+          [
+            "▁አምላክ",
+            "</s>",
+            1.0
+          ],
+          [
+            "▁እ",
+            "</s>",
+            0.59
+          ],
+          [
+            "ነግ",
+            "</s>",
+            0.93
+          ],
+          [
+            "ራ",
+            ".",
+            0.91
+          ],
+          [
+            "ለሁ።",
+            ".",
+            0.97
+          ],
+          [
+            "</s>",
+            ".",
+            0.92
+          ]
+        ]
+      },
+      {
+        "id": 6,
+        "source": "he has swallowed down wealth, but he will vomit it up;",
+        "reference": "የዋጠውን ሃብት መልሶ ይተፋዋል፤",
+        "translation": "ሃብትን ሰራ፤ ሆኖም ያድናል፤",
+        "figure": "figures/attention_attention_6.png",
+        "top_source_token_per_output": [
+          [
+            "▁ሃብት",
+            ",",
+            1.0
+          ],
+          [
+            "ን",
+            ",",
+            1.0
+          ],
+          [
+            "▁ሰራ",
+            ",",
+            0.96
+          ],
+          [
+            "፤",
+            ",",
+            1.0
+          ],
+          [
+            "▁ሆኖም",
+            "</s>",
+            0.97
+          ],
+          [
+            "▁ያ",
+            "</s>",
+            0.43
+          ],
+          [
+            "ድ",
+            "</s>",
+            1.0
+          ],
+          [
+            "ናል፤",
+            ";",
+            0.95
+          ],
+          [
+            "</s>",
+            "▁up",
+            0.96
+          ]
+        ]
+      },
+      {
+        "id": 7,
+        "source": "instead, simply relate how your spouse's actions affected you.",
+        "reference": "ከዚህ ይልቅ የትዳር ጓደኛችሁ ድርጊት ምን ስሜት እንዳሳደረባችሁ ብቻ ተናገሩ።",
+        "translation": "ከዚህ ይልቅ የትዳር ጓደኛችሁ ምን ያህል ተጽእኖ እንደሚያሳድርብህ አስብ።",
+        "figure": "figures/attention_attention_7.png",
+        "top_source_token_per_output": [
+          [
+            "▁ከዚህ",
+            ".",
+            0.93
+          ],
+          [
+            "▁ይልቅ",
+            ".",
+            0.96
+          ],
+          [
+            "▁የትዳር",
+            "</s>",
+            0.96
+          ],
+          [
+            "▁ጓደኛችሁ",
+            "</s>",
+            0.95
+          ],
+          [
+            "▁ምን",
+            "</s>",
+            0.94
+          ],
+          [
+            "▁ያህል",
+            "</s>",
+            0.55
+          ],
+          [
+            "▁ተጽእኖ",
+            "</s>",
+            0.79
+          ],
+          [
+            "▁እንደሚ",
+            ".",
+            0.98
+          ],
+          [
+            "ያሳድር",
+            ".",
+            0.56
+          ],
+          [
+            "ብህ",
+            ".",
+            0.99
+          ],
+          [
+            "▁አስብ።",
+            ".",
+            0.99
+          ],
+          [
+            "</s>",
+            ".",
+            0.87
+          ]
+        ]
+      },
+      {
+        "id": 8,
+        "source": "really, then, what did you go out to see?",
+        "reference": "ታዲያ ምን ለማየት ሄዳችሁ?",
+        "translation": "ታዲያ ምን ለማየት አስችሎሃል?",
+        "figure": "figures/attention_attention_8.png",
+        "top_source_token_per_output": [
+          [
+            "▁ታዲያ",
+            "?",
+            0.98
+          ],
+          [
+            "▁ምን",
+            "</s>",
+            0.99
+          ],
+          [
+            "▁ለማየት",
+            "</s>",
+            0.6
+          ],
+          [
+            "▁አስ",
+            "?",
+            0.94
+          ],
+          [
+            "ች",
+            "</s>",
+            0.9
+          ],
+          [
+            "ሎ",
+            "?",
+            0.91
+          ],
+          [
+            "ሃል",
+            "?",
+            0.99
+          ],
+          [
+            "?",
+            "?",
+            1.0
+          ],
+          [
+            "</s>",
+            "</s>",
+            0.95
+          ]
+        ]
+      }
+    ]
+  },
+  "bahdanau": {
+    "stats": {
+      "sentences": 300,
+      "mean_attention_entropy_nats": 2.118,
+      "fraction_monotone_steps": 0.776
+    },
+    "examples": [
+      {
+        "id": 1,
+        "source": "i am going to the university.",
+        "reference": null,
+        "translation": "ወደ ዩኒቨርሲቲዬ እሄዳለሁ።",
+        "figure": "figures/attention_bahdanau_1.png",
+        "top_source_token_per_output": [
+          [
+            "▁ወደ",
+            "▁university",
+            0.35
+          ],
+          [
+            "▁ዩኒቨርሲቲ",
+            "▁university",
+            0.44
+          ],
+          [
+            "ዬ",
+            "▁university",
+            0.54
+          ],
+          [
+            "▁እሄዳለሁ",
+            "▁going",
+            0.42
+          ],
+          [
+            "።",
+            "▁going",
+            0.54
+          ],
+          [
+            "</s>",
+            "</s>",
+            0.33
+          ]
+        ]
+      },
+      {
+        "id": 2,
+        "source": "the children are playing in the garden.",
+        "reference": null,
+        "translation": "ልጆች ከጸሃይ የአትክልት ቦታ ውስጥ ናቸው።",
+        "figure": "figures/attention_bahdanau_2.png",
+        "top_source_token_per_output": [
+          [
+            "▁ልጆች",
+            "▁children",
+            0.43
+          ],
+          [
+            "▁ከጸሃይ",
+            "▁garden",
+            0.5
+          ],
+          [
+            "▁የአትክልት",
+            "▁garden",
+            0.58
+          ],
+          [
+            "▁ቦታ",
+            "▁playing",
+            0.62
+          ],
+          [
+            "▁ውስጥ",
+            "▁playing",
+            0.62
+          ],
+          [
+            "▁ናቸው።",
+            "▁playing",
+            0.65
+          ],
+          [
+            "</s>",
+            "▁playing",
+            0.65
+          ]
+        ]
+      },
+      {
+        "id": 3,
+        "source": "she did not eat bread yesterday.",
+        "reference": null,
+        "translation": "የምግብ እጥረት አልበላችም።",
+        "figure": "figures/attention_bahdanau_3.png",
+        "top_source_token_per_output": [
+          [
+            "▁የምግብ",
+            "▁yesterday",
+            0.48
+          ],
+          [
+            "▁እጥረት",
+            "▁yesterday",
+            0.54
+          ],
+          [
+            "▁አል",
+            "▁yesterday",
+            0.42
+          ],
+          [
+            "በላ",
+            "▁eat",
+            0.4
+          ],
+          [
+            "ች",
+            "▁did",
+            0.4
+          ],
+          [
+            "ም።",
+            "</s>",
+            0.25
+          ],
+          [
+            "</s>",
+            "</s>",
+            0.24
+          ]
+        ]
+      },
+      {
+        "id": 4,
+        "source": "jesus said to his disciples: love one another.",
+        "reference": null,
+        "translation": "ኢየሱስ ደቀ መዛሙርቱን እንዲህ አላቸው: እርስ በርሳችሁ ፍቅር ይኑራችሁ።",
+        "figure": "figures/attention_bahdanau_4.png",
+        "top_source_token_per_output": [
+          [
+            "▁ኢየሱስ",
+            "▁jesus",
+            0.22
+          ],
+          [
+            "▁ደቀ",
+            "▁his",
+            0.52
+          ],
+          [
+            "▁መዛሙርቱ",
+            "▁his",
+            0.31
+          ],
+          [
+            "ን",
+            "▁love",
+            0.21
+          ],
+          [
+            "▁እንዲህ",
+            ":",
+            0.34
+          ],
+          [
+            "▁አላቸው",
+            ":",
+            0.24
+          ],
+          [
+            ":",
+            ":",
+            0.33
+          ],
+          [
+            "▁እርስ",
+            "▁love",
+            0.41
+          ],
+          [
+            "▁በርሳችሁ",
+            "▁another",
+            0.42
+          ],
+          [
+            "▁ፍቅር",
+            "▁love",
+            0.48
+          ],
+          [
+            "▁ይኑራችሁ",
+            "▁love",
+            0.42
+          ],
+          [
+            "።",
+            "▁love",
+            0.28
+          ],
+          [
+            "</s>",
+            "</s>",
+            0.19
+          ]
+        ]
+      },
+      {
+        "id": 5,
+        "source": "jon: i guess that's talking about god.",
+        "reference": "ኢዮብ፣ አምላክ ይመስለኛል።",
+        "translation": "ኢዮብ፣ ስለ አምላክ መናገር ያስደስተኝ ነበር።",
+        "figure": "figures/attention_bahdanau_5.png",
+        "top_source_token_per_output": [
+          [
+            "▁ኢዮብ",
+            "▁jon",
+            0.97
+          ],
+          [
+            "፣",
+            "▁jon",
+            0.74
+          ],
+          [
+            "▁ስለ",
+            "▁about",
+            0.53
+          ],
+          [
+            "▁አምላክ",
+            "▁about",
+            0.32
+          ],
+          [
+            "▁መናገር",
+            "▁talking",
+            0.62
+          ],
+          [
+            "▁ያስ",
+            "▁talking",
+            0.41
+          ],
+          [
+            "ደስ",
+            "▁gu",
+            0.38
+          ],
+          [
+            "ተ",
+            "</s>",
+            0.19
+          ],
+          [
+            "ኝ",
+            "▁i",
+            0.28
+          ],
+          [
+            "▁ነበር።",
+            "</s>",
+            0.27
+          ],
+          [
+            "</s>",
+            "▁gu",
+            0.27
+          ]
+        ]
+      },
+      {
+        "id": 6,
+        "source": "he has swallowed down wealth, but he will vomit it up;",
+        "reference": "የዋጠውን ሃብት መልሶ ይተፋዋል፤",
+        "translation": "ሃብትን ጣል፤ እሱ ግን ያነሳል፤",
+        "figure": "figures/attention_bahdanau_6.png",
+        "top_source_token_per_output": [
+          [
+            "▁ሃብት",
+            "▁wealth",
+            0.81
+          ],
+          [
+            "ን",
+            "▁wealth",
+            0.6
+          ],
+          [
+            "▁ጣ",
+            "▁down",
+            0.43
+          ],
+          [
+            "ል፤",
+            "▁swallowed",
+            0.55
+          ],
+          [
+            "▁እሱ",
+            "▁he",
+            0.34
+          ],
+          [
+            "▁ግን",
+            "▁vomit",
+            0.58
+          ],
+          [
+            "▁ያ",
+            "▁vomit",
+            0.62
+          ],
+          [
+            "ነሳ",
+            "▁vomit",
+            0.59
+          ],
+          [
+            "ል፤",
+            "▁it",
+            0.44
+          ],
+          [
+            "</s>",
+            "</s>",
+            0.37
+          ]
+        ]
+      },
+      {
+        "id": 7,
+        "source": "instead, simply relate how your spouse's actions affected you.",
+        "reference": "ከዚህ ይልቅ የትዳር ጓደኛችሁ ድርጊት ምን ስሜት እንዳሳደረባችሁ ብቻ ተናገሩ።",
+        "translation": "ከዚህ ይልቅ የትዳር ጓደኛችሁ ምን ተጽእኖ እንዳያሳድሩብህ አስብ።",
+        "figure": "figures/attention_bahdanau_7.png",
+        "top_source_token_per_output": [
+          [
+            "▁ከዚህ",
+            "▁simply",
+            0.24
+          ],
+          [
+            "▁ይልቅ",
+            "▁spouse",
+            0.35
+          ],
+          [
+            "▁የትዳር",
+            "▁spouse",
+            0.41
+          ],
+          [
+            "▁ጓደኛችሁ",
+            "▁spouse",
+            0.29
+          ],
+          [
+            "▁ምን",
+            "▁actions",
+            0.39
+          ],
+          [
+            "▁ተጽእኖ",
+            "▁affected",
+            0.32
+          ],
+          [
+            "▁እንዳ",
+            "▁affected",
+            0.36
+          ],
+          [
+            "ያሳድሩ",
+            "▁affected",
+            0.41
+          ],
+          [
+            "ብህ",
+            "▁you",
+            0.28
+          ],
+          [
+            "▁አስብ።",
+            "▁relate",
+            0.33
+          ],
+          [
+            "</s>",
+            "▁relate",
+            0.39
+          ]
+        ]
+      },
+      {
+        "id": 8,
+        "source": "really, then, what did you go out to see?",
+        "reference": "ታዲያ ምን ለማየት ሄዳችሁ?",
+        "translation": "ታዲያ ምን ለማየት ትጓጓለህ?",
+        "figure": "figures/attention_bahdanau_8.png",
+        "top_source_token_per_output": [
+          [
+            "▁ታዲያ",
+            "▁then",
+            0.36
+          ],
+          [
+            "▁ምን",
+            "▁see",
+            0.77
+          ],
+          [
+            "▁ለማየት",
+            "▁see",
+            0.65
+          ],
+          [
+            "▁ት",
+            "▁go",
+            0.31
+          ],
+          [
+            "ጓጓ",
+            "▁go",
+            0.3
+          ],
+          [
+            "ለህ",
+            "</s>",
+            0.24
+          ],
+          [
+            "?",
+            "?",
+            0.37
+          ],
+          [
+            "</s>",
+            "</s>",
+            0.51
+          ]
+        ]
+      }
+    ]
+  }
+}

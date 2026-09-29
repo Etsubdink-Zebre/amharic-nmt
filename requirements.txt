@@ -1,0 +1,13 @@
+# CPU build of PyTorch (much smaller; no GPU needed for inference)
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch>=2.2
+sentencepiece>=0.2
+sacrebleu>=2.4
+pandas>=2.0
+pyarrow>=14
+numpy>=1.26
+matplotlib>=3.8
+fastapi>=0.110
+uvicorn[standard]>=0.29
+streamlit>=1.35
+pytest>=8
