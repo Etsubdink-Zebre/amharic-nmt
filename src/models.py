@@ -1,14 +1,16 @@
-"""The two required models.
+"""The two required models, plus the Luong-attention ablation.
 
-Both share the same encoder (2-layer bidirectional LSTM) and the same decoder
-LSTM, so the only architectural difference is the attention layer:
+All share the same encoder (2-layer bidirectional LSTM) and the same decoder LSTM,
+so the only architectural difference is how the decoder sees the source:
 
-* Seq2Seq      — the decoder sees the source only through the encoder's final
-                 hidden/cell states (a fixed-size "thought vector").
-* AttnSeq2Seq  — additionally, at every target step the decoder output attends
-                 over all encoder states (Luong "general" global attention),
-                 and the attended context is fed back into the next step
-                 ("input feeding", Luong et al., 2015).
+* Seq2Seq          — only through the encoder's final hidden/cell states
+                     (a fixed-size "thought vector").
+* BahdanauSeq2Seq  — the Attention-LSTM: before each target word, the previous
+                     decoder state attends over all encoder states (additive
+                     attention, Bahdanau et al., 2015).
+* AttnSeq2Seq      — ablation: Luong "general" attention computed after the decoder
+                     step, with input feeding (Luong et al., 2015). Its attention
+                     collapsed onto the sentence-final token (see REPORT §4.3).
 """
 import torch
 import torch.nn as nn
@@ -213,8 +215,37 @@ def count_params(model):
 
 
 # -- decoding -----------------------------------------------------------------
+def blocked_tokens(toks, n=C.NO_REPEAT_NGRAM):
+    """Tokens that may not come next: the previous token (no immediate repeats) and any token
+    that would complete an n-gram already present in `toks` (as in no_repeat_ngram_size)."""
+    if not toks:
+        return set()
+    banned = {toks[-1]}
+    if n and len(toks) >= n - 1:
+        prefix = tuple(toks[len(toks) - n + 1:])
+        for i in range(len(toks) - n + 1):
+            if tuple(toks[i:i + n - 1]) == prefix:
+                banned.add(toks[i + n - 1])
+    banned.discard(C.EOS)
+    return banned
+
+
+def remember(toks, seen, t, n=C.NO_REPEAT_NGRAM):
+    """Append token t and index the n-gram it completes (prefix → possible next tokens)."""
+    toks.append(t)
+    if n and len(toks) >= n:
+        seen.setdefault(tuple(toks[-n:-1]), set()).add(t)
+
+
+def blocked_next(toks, seen, n=C.NO_REPEAT_NGRAM):
+    """Incremental version of blocked_tokens for batched greedy decoding."""
+    banned = {toks[-1]} | seen.get(tuple(toks[-(n - 1):]), set()) if n and len(toks) >= n - 1 else {toks[-1]}
+    banned.discard(C.EOS)
+    return banned
+
+
 @torch.no_grad()
-def greedy_decode(model, src, src_len, max_len=C.MAX_DECODE_LEN):
+def greedy_decode(model, src, src_len, max_len=C.MAX_DECODE_LEN, block_repeats=C.BLOCK_REPEATS):
     """Batched greedy decoding. Returns token ids (B, T) and, for the attention
     model, attention weights (B, T, S)."""
     model.eval()
@@ -223,11 +254,25 @@ def greedy_decode(model, src, src_len, max_len=C.MAX_DECODE_LEN):
     tok = torch.full((B,), C.BOS, dtype=torch.long, device=src.device)
     done = torch.zeros(B, dtype=torch.bool, device=src.device)
     out, attns = [], []
+    hist, seen = [[] for _ in range(B)], [{} for _ in range(B)]   # per-sentence tokens and n-gram index
     limit = min(max_len, int(src_len.max()) * 2 + 10)
     for _ in range(limit):
         logits, w = model.decode_step(tok, cache)
+        if block_repeats and out:
+            rows, cols = [], []
+            for b in range(B):
+                if hist[b]:
+                    for t in blocked_next(hist[b], seen[b]):
+                        rows.append(b)
+                        cols.append(t)
+            if rows:
+                logits[rows, cols] = float("-inf")
         tok = logits.argmax(-1).masked_fill(done, C.PAD)
         out.append(tok)
+        if block_repeats:
+            for b, t in enumerate(tok.tolist()):
+                if t != C.PAD:
+                    remember(hist[b], seen[b], t)
         if w is not None:
             attns.append(w)
         done |= tok == C.EOS
@@ -238,7 +283,7 @@ def greedy_decode(model, src, src_len, max_len=C.MAX_DECODE_LEN):
 
 
 @torch.no_grad()
-def beam_decode(model, src, src_len, beam=5, max_len=C.MAX_DECODE_LEN, alpha=0.7):
+def beam_decode(model, src, src_len, beam=5, max_len=C.MAX_DECODE_LEN, alpha=0.7, block_repeats=C.BLOCK_REPEATS):
     """Beam search for one sentence (src is (1, S)). Length-normalised with
     GNMT penalty ((5+len)/6)^alpha. Returns (ids list, attention (T, S) or None)."""
     model.eval()
@@ -253,6 +298,10 @@ def beam_decode(model, src, src_len, beam=5, max_len=C.MAX_DECODE_LEN, alpha=0.7
         logp = F.log_softmax(logits, -1)
         cand = []
         for i, (toks, score, att) in enumerate(beams):
+            if block_repeats:
+                ban = blocked_tokens(toks)
+                if ban:
+                    logp[i, list(ban)] = float("-inf")
             top = logp[i].topk(beam)
             for lp, t in zip(top.values.tolist(), top.indices.tolist()):
                 cand.append((toks + [t], score + lp, att + ([w[i].cpu()] if w is not None else []), i))

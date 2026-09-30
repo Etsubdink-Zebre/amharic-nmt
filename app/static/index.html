@@ -40,14 +40,14 @@
 <body>
 <main>
   <h1>English → Amharic Neural Machine Translation</h1>
-  <p class="sub">LSTM encoder–decoder models trained from scratch on 149k English–Amharic sentence pairs.</p>
+  <p class="sub">LSTM encoder–decoder models trained from scratch on 692k English–Amharic sentence pairs.</p>
   <div class="card scope" id="scope"></div>
 
   <div class="card">
     <textarea id="text" placeholder="Type an English sentence…">I am going to the university.</textarea>
     <div class="row examples" id="examples"></div>
     <div class="row">
-      <label>Model <select id="model"><option value="bahdanau">Attention-LSTM (Bahdanau)</option><option value="attention">Attention-LSTM (Luong)</option><option value="seq2seq">Seq2Seq-LSTM</option></select></label>
+      <label>Model <select id="model"><option value="bahdanau">Attention-LSTM</option><option value="seq2seq">Seq2Seq-LSTM (baseline)</option></select></label>
       <label>Beam <select id="beam"><option>1</option><option>3</option><option selected>5</option><option>8</option></select></label>
       <button class="primary" id="go">Translate</button>
     </div>
@@ -61,8 +61,8 @@
   </div>
 </main>
 <script>
-const EX = ["Thank you very much.", "Where is the hospital?", "My father is a teacher.", "We must help the poor.",
-            "What is your name?", "The king sent his servants to the city."];
+const EX = ["She is Ethiopian and was born there.", "How much does this book cost?", "The farmers are waiting for the rain.",
+            "Where is the hospital?", "Our school has many students and teachers.", "Thank you very much."];
 const $ = id => document.getElementById(id);
 EX.forEach(e => { const b = document.createElement("button"); b.textContent = e;
   b.onclick = () => { $("text").value = e; go(); }; $("examples").appendChild(b); });

@@ -21,7 +21,7 @@ from .plotting import plt, setup_fonts
 from .train import run_epoch
 from .translator import Translator
 
-ALL_NAMES = {"seq2seq": "Seq2Seq-LSTM", "attention": "Attn-LSTM (Luong)", "bahdanau": "Attn-LSTM (Bahdanau)"}
+ALL_NAMES = {"seq2seq": "Seq2Seq-LSTM", "attention": "Attn-LSTM (Luong)", "bahdanau": "Attention-LSTM"}
 # Only models that have been trained (checkpoint + history) are evaluated.
 NAMES = {k: v for k, v in ALL_NAMES.items()
          if (C.MODEL_DIR / f"{k}.pt").exists() and (C.RESULTS_DIR / f"history_{k}.json").exists()}
@@ -57,11 +57,19 @@ def evaluate_model(name, test_df):
     res = {"model": NAMES[name], "parameters": count_params(tr.model),
            "training_time_min": round(hist["training_time_sec"] / 60, 1),
            "epochs_run": hist["epochs_run"], "best_epoch": hist["best_epoch"]}
+    ft_path = C.RESULTS_DIR / f"history_{name}_ft.json"
+    ft = json.loads(ft_path.read_text()) if ft_path.exists() else None
+    if ft:                                   # habtew fine-tuning after the main training run
+        res["training_time_min"] = round((hist["training_time_sec"] + ft["time_sec"]) / 60, 1)
+        res["finetune_epochs"] = ft["epochs"]
     bench = C.RESULTS_DIR / "speed_benchmark.json"
     if bench.exists():
         b = json.loads(bench.read_text())[name]
         res["isolated_min_per_epoch"] = b["isolated_min_per_epoch"]
-        res["isolated_training_time_min_estimate"] = b["isolated_training_time_min_estimate"]
+        est = b["isolated_training_time_min_estimate"]
+        if ft:
+            est += b["isolated_min_per_epoch"] * ft["habtew_pairs"] / hist["train_pairs"] * ft["epochs"]
+        res["isolated_training_time_min_estimate"] = round(est, 1)
 
     test_data = ParallelData(test_df, tr.sp_en, tr.sp_am)
     loss = run_epoch(tr.model, test_data, nn.CrossEntropyLoss(ignore_index=C.PAD), dev)
@@ -119,6 +127,16 @@ def plot_history():
         axes[0].plot(ep, [x["train_loss"] for x in h], "--", color=color, label=f"{NAMES[name]} train")
         axes[0].plot(ep, [x["val_loss"] for x in h], "-o", color=color, ms=3, label=f"{NAMES[name]} val")
         axes[1].plot(ep, [x["val_ppl"] for x in h], "-o", color=color, ms=3, label=NAMES[name])
+        ft_path = C.RESULTS_DIR / f"history_{name}_ft.json"
+        if ft_path.exists():                 # fine-tuning epochs continue the curve, marked with squares
+            f = json.loads(ft_path.read_text())["history"]
+            fe = [ep[-1]] + [ep[-1] + x["epoch"] for x in f]
+            axes[0].plot(fe, [h[-1]["val_loss"]] + [x["val_loss"] for x in f], "-s", color=color, ms=4)
+            axes[1].plot(fe, [h[-1]["val_ppl"]] + [x["val_ppl"] for x in f], "-s", color=color, ms=4)
+    for a in axes:
+        if any((C.RESULTS_DIR / f"history_{n}_ft.json").exists() for n in NAMES):
+            a.axvline(ep[-1] + .5, color="grey", ls=":", lw=1)
+            a.text(ep[-1] + .6, a.get_ylim()[1] * .97, "habtew\nfine-tuning", fontsize=8, va="top", color="grey")
     axes[0].set(title="Cross-entropy loss", xlabel="epoch", ylabel="loss")
     axes[1].set(title="Validation perplexity", xlabel="epoch", ylabel="perplexity")
     for a in axes:
@@ -175,7 +193,7 @@ def main():
         ("Training time, wall clock, concurrent runs (min)", "training_time_min"),
         ("Training time per epoch, isolated (min)", "isolated_min_per_epoch"),
         ("Training time, isolated estimate (min)", "isolated_training_time_min_estimate"),
-        ("Epochs run (best epoch)", None),
+        ("Epochs", None),
         ("Inference time, whole test set, batched greedy (s)", "inference_time_test_set_sec"),
         ("Inference per sentence, batched greedy (ms)", "inference_ms_per_sentence_batched"),
         ("Latency, single sentence, beam 5, median (ms)", "latency_ms_single_sentence_beam5_median"),
@@ -184,7 +202,7 @@ def main():
     lines = ["| Metric | " + " | ".join(NAMES.values()) + " |", "|---|" + "---:|" * len(NAMES)]
     for label, key in rows:
         if key is None:
-            vals = [f"{results[n]['epochs_run']} ({results[n]['best_epoch']})" for n in NAMES]
+            vals = [f"{results[n]['epochs_run']}" + (f" + {results[n]['finetune_epochs']} fine-tuning" if results[n].get("finetune_epochs") else f" ({results[n]['best_epoch']})") for n in NAMES]
         elif key == "parameters":
             vals = [f"{results[n][key]:,}" for n in NAMES]
         else:

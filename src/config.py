@@ -10,6 +10,8 @@ RESULTS_DIR = ROOT / "results"
 FIG_DIR = RESULTS_DIR / "figures"
 
 HF_DATASET = "habtew/english-amharic-translation"
+# Extra training data (training split only; validation/test come from HF_DATASET alone).
+EXTRA_DATASET = "michsethowusu/english-amharic_sentence-pairs_mt560"   # OPUS MT560, CC-BY-4.0
 SEED = 42
 
 # ---- preprocessing -------------------------------------------------------
@@ -32,10 +34,12 @@ DROPOUT = 0.3
 # ---- training ------------------------------------------------------------
 BATCH_SIZE = 128
 LR = 1e-3
-EPOCHS = 15
+EPOCHS = 6                 # phase 2: 4.6× more data per epoch than phase 1 (15 epochs)
 PATIENCE = 3               # early stopping on validation loss
 CLIP = 1.0
 MAX_DECODE_LEN = 120
+BLOCK_REPEATS = True       # decoding: forbid immediate token repeats and repeated n-grams
+NO_REPEAT_NGRAM = 3        # (subword n-grams; Amharic almost never repeats a word back-to-back)
 
 # ---- translation scope (warnings shown by the apps) ------------------------
 RARE_WORD_COUNT = 30       # a word seen fewer times than this in training is likely mistranslated

@@ -3,18 +3,13 @@
   "batch_size": 128,
   "timed_batches": 150,
   "seq2seq": {
-    "sec_per_batch": 0.1709,
-    "isolated_min_per_epoch": 3.32,
-    "isolated_training_time_min_estimate": 49.8
-  },
-  "attention": {
-    "sec_per_batch": 0.3734,
-    "isolated_min_per_epoch": 7.26,
-    "isolated_training_time_min_estimate": 108.9
+    "sec_per_batch": 0.1769,
+    "isolated_min_per_epoch": 15.94,
+    "isolated_training_time_min_estimate": 95.6
   },
   "bahdanau": {
-    "sec_per_batch": 0.3171,
-    "isolated_min_per_epoch": 6.16,
-    "isolated_training_time_min_estimate": 92.4
+    "sec_per_batch": 0.3569,
+    "isolated_min_per_epoch": 32.15,
+    "isolated_training_time_min_estimate": 192.9
   }
 }

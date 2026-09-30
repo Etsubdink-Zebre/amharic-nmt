@@ -1,0 +1,27 @@
+{
+  "test_sentences": 8266,
+  "seq2seq": {
+    "bleu": 6.22,
+    "bleu13a": 5.0,
+    "chrf": 16.79,
+    "chrf++": 15.78,
+    "test_loss": 3.7073,
+    "test_perplexity": 40.74
+  },
+  "bahdanau": {
+    "bleu": 11.59,
+    "bleu13a": 9.69,
+    "chrf": 24.8,
+    "chrf++": 23.72,
+    "test_loss": 3.1352,
+    "test_perplexity": 22.99
+  },
+  "attention": {
+    "bleu": 7.66,
+    "bleu13a": 6.24,
+    "chrf": 19.34,
+    "chrf++": 18.36,
+    "test_loss": 3.5247,
+    "test_perplexity": 33.94
+  }
+}

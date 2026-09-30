@@ -1,0 +1,19 @@
+{
+  "note": "Final (fine-tuned) models decoded WITHOUT repetition blocking, same test set",
+  "seq2seq": {
+    "bleu_greedy": 5.23,
+    "bleu13a_greedy": 4.13,
+    "chrf_greedy": 16.39,
+    "chrf++_greedy": 15.33,
+    "bleu_beam5_first1000": 5.36,
+    "chrf_beam5_first1000": 16.31
+  },
+  "bahdanau": {
+    "bleu_greedy": 11.89,
+    "bleu13a_greedy": 10.09,
+    "chrf_greedy": 26.21,
+    "chrf++_greedy": 25.04,
+    "bleu_beam5_first1000": 12.48,
+    "chrf_beam5_first1000": 26.86
+  }
+}

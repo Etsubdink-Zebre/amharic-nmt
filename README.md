@@ -9,39 +9,40 @@ Deep Learning — Group Project
 | Henock Bonsa | GSE/3554/18 |
 
 LSTM encoder–decoder models for English → Amharic translation: a **basic Seq2Seq-LSTM** and an
-**Attention-LSTM** (Bahdanau additive attention). A Luong-attention variant is included as an ablation.
-All are trained from scratch in PyTorch on 149k English–Amharic sentence pairs, evaluated on a
-held-out test set, analysed for errors and attention behaviour, and deployed as a
-**Streamlit** web app and a **FastAPI** REST API.
+**Attention-LSTM** (Bahdanau additive attention). Both are trained from scratch in PyTorch on 692k
+English–Amharic sentence pairs (habtew + OPUS MT560), evaluated on a held-out test set, analysed for
+errors and attention behaviour, and deployed as a **Streamlit** web app and a **FastAPI** REST API.
 
-The full write-up is in [REPORT.md](REPORT.md).
+**Live app:** https://amharic-nmt.streamlit.app · **Full write-up:** [REPORT.md](REPORT.md)
 
 ---
 
 ## Results at a glance
 
-Held-out test set, 8,815 sentences, greedy decoding:
+Held-out test set: 8,266 sentences, greedy decoding.
 
-| | Seq2Seq-LSTM | Attn-LSTM (Luong, ablation) | **Attention-LSTM (Bahdanau)** |
-|---|---:|---:|---:|
-| BLEU | 5.96 | 7.38 | **11.20** |
-| chrF | 16.59 | 19.09 | **24.44** |
-| Test loss / perplexity | 3.756 / 42.8 | 3.580 / 35.9 | **3.187 / 24.2** |
-| Training time (15 epochs, isolated) | **50 min** | 109 min | 92 min |
-| Inference, per sentence (batched / beam-5 API) | **0.65 / 87 ms** | 1.26 / 188 ms | 1.19 / 183 ms |
-| Parameters | **14.5 M** | 16.3 M | 16.7 M |
+| | Seq2Seq-LSTM | **Attention-LSTM** |
+|---|---:|---:|
+| BLEU | 5.29 | **11.95** |
+| chrF | 16.95 | **26.48** |
+| Test loss / perplexity | 3.565 / 35.3 | **2.840 / 17.1** |
+| Training time (6 + 2 fine-tuning epochs, isolated) | **100 min** | 202 min |
+| Inference per sentence (batched / beam-5 app) | **0.96 / 111 ms** | 1.31 / 223 ms |
+| Parameters | **14.5 M** | 16.7 M |
 
-The Bahdanau Attention-LSTM wins at every sentence length, and the gap grows on long sentences.
-The Luong variant's attention collapsed onto the sentence-final token (see REPORT §4.3).
+The Attention-LSTM wins at every sentence length, and the gap grows on long sentences.
+A Luong-attention variant tried first collapsed onto the sentence-final token (REPORT §4.3).
 
 ```
 POST /translate  {"text": "I am going to the university."}
-→ {"translation": "ወደ ዩኒቨርሲቲዬ እሄዳለሁ።", "model": "bahdanau", "latency_ms": 94}
+→ {"translation": "ወደ ዩኒቨርሲቲ ገብቼ እሄዳለሁ።", "model": "bahdanau", "latency_ms": 223, "warnings": []}
 ```
 
 Outputs: [comparison table](results/comparison.md) · [examples](results/examples.md) ·
 [error examples](results/error_examples.md) · [error statistics](results/error_analysis.json) ·
-[figures](results/figures/) (training curves, quality by length, 16 attention heatmaps).
+[figures](results/figures/) (training curves, quality by length, attention heatmaps) ·
+earlier phases: [phase-1 results](results/phase1_comparison.md), [phase-1 scores on this test set](results/phase1_scores.json),
+[before fine-tuning](results/phase2_pre_ft_scores.json), [without repetition blocking](results/no_repeat_blocking_scores.json).
 
 ---
 
@@ -53,8 +54,10 @@ nmt-amharic/
 │   ├── text.py          normalization shared by training and the app (single source of truth)
 │   ├── prepare_data.py  download → clean → dedupe → split → SentencePiece → length filter
 │   ├── data.py          tokenized datasets, length-bucketed batching
-│   ├── models.py        Seq2Seq, BahdanauSeq2Seq, AttnSeq2Seq (Luong), greedy + beam decoding
+│   ├── models.py        Seq2Seq, BahdanauSeq2Seq, AttnSeq2Seq (Luong, ablation), greedy + beam decoding
 │   ├── train.py         training loop, early stopping, checkpointing
+│   ├── finetune.py      in-domain fine-tuning on the habtew training pairs
+│   ├── eval_phase1.py   scores archived phase-1 checkpoints on the current test set
 │   ├── translator.py    inference pipeline (raw text → Amharic), used by eval and app
 │   ├── benchmark.py     isolated training-speed benchmark
 │   ├── evaluate.py      BLEU / chrF / test loss / timings / examples / plots
@@ -64,8 +67,8 @@ nmt-amharic/
 ├── app/
 │   ├── main.py          FastAPI: POST /translate, GET /health, GET / (web UI)
 │   └── static/index.html
-├── models/              trained checkpoints (seq2seq.pt, bahdanau.pt, attention.pt = Luong) + SentencePiece models (spm_*.model)
-├── data/processed/      cleaned train/val/test TSVs
+├── models/              trained checkpoints (seq2seq.pt, bahdanau.pt), SentencePiece models, training word counts
+├── data/                created by prepare_data (not in the repository)
 ├── results/             metrics, comparison table, examples, error analysis, figures/
 ├── tests/               unit tests for text normalization
 ├── run_all.sh           reproduces everything end to end
@@ -110,13 +113,13 @@ http://localhost:8000/docs for the interactive API docs.
 curl -X POST localhost:8000/translate -H "Content-Type: application/json" -d '{"text": "I am going to the university."}'
 ```
 
-Request fields: `text` (required), `model` (`"bahdanau"` = Attention-LSTM, default; `"seq2seq"`; or `"attention"` = Luong ablation),
+Request fields: `text` (required), `model` (`"bahdanau"` = Attention-LSTM, default; or `"seq2seq"`),
 `beam` (1–10, default 5), `return_attention` (default `false`).
-Response: `{"translation": "...", "model": "bahdanau", "latency_ms": 94}`.
+Response: `{"translation": "...", "model": "bahdanau", "latency_ms": 223, "warnings": [...]}`.
 
 ### Translation scope
 
-The models only know what their training data contains: about 149k full sentences, mostly from
+The models only know what their training data contains: about 692k full sentences, mostly from
 religious and news writing.
 
 | Works well | Unreliable |
@@ -132,6 +135,8 @@ Both apps show this note. Each translation also comes with **warnings** when the
 them in a `warnings` list.
 
 ### Deploying the Streamlit app
+
+The app is live at https://amharic-nmt.streamlit.app and redeploys on every push to `main`. To deploy your own copy:
 
 1. Sign in at https://share.streamlit.io with GitHub and click **Create app**.
 2. Choose this repository, branch `main`, main file `streamlit_app.py`.
@@ -150,7 +155,7 @@ docker run -p 8000:8000 amharic-nmt
 ## Reproducing the experiments
 
 Everything — download, preprocessing, training both models, benchmark, evaluation and
-analysis — runs with one script (≈ 4.5 h on an Apple M1 Pro GPU; CUDA is used if available):
+analysis — runs with one script (≈ 5.5 h on an Apple M1 Pro GPU; CUDA is used if available):
 
 ```bash
 ./run_all.sh
@@ -171,7 +176,11 @@ python -m src.train --model bahdanau
 ```
 
 ```bash
-python -m src.train --model attention
+python -m src.finetune --model seq2seq
+```
+
+```bash
+python -m src.finetune --model bahdanau
 ```
 
 ```bash
@@ -192,10 +201,14 @@ Unit tests:
 python -m pytest tests
 ```
 
-## Dataset
+## Datasets
 
-[`habtew/english-amharic-translation`](https://huggingface.co/datasets/habtew/english-amharic-translation)
-on the Hugging Face Hub (237,243 raw pairs). The dataset card declares **no license**;
-the text is largely drawn from publicly available Bible / Jehovah's Witnesses publications
-and news sites, so it is used here for non-commercial academic research only.
-See [REPORT.md §1](REPORT.md#1-dataset--preprocessing) for the cleaning steps and statistics.
+* [`habtew/english-amharic-translation`](https://huggingface.co/datasets/habtew/english-amharic-translation)
+  (237,243 raw pairs): training, validation and test. The dataset card declares **no license**. The text
+  is largely drawn from publicly available Bible / Jehovah's Witnesses publications and news sites,
+  so it is used here for non-commercial academic research only and is not redistributed.
+* [`michsethowusu/english-amharic_sentence-pairs_mt560`](https://huggingface.co/datasets/michsethowusu/english-amharic_sentence-pairs_mt560)
+  (OPUS MT560, 669,145 pairs, **CC-BY-4.0**): additional training data only.
+
+`python -m src.prepare_data` downloads both. See [REPORT.md §1](REPORT.md#1-dataset--preprocessing)
+for the cleaning steps, the leakage we found and removed, and the statistics.

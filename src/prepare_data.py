@@ -1,10 +1,15 @@
-"""Download → clean → deduplicate → split → train SentencePiece → encode.
+"""Download → clean → deduplicate → split → add extra training data → train SentencePiece.
+
+Validation and test sets are drawn from the habtew corpus only (so results stay comparable
+with the first experiment). The OPUS MT560 pairs are added to the training split after
+removing anything that overlaps with validation or test.
 
 Run:  python -m src.prepare_data
 Writes data/processed/{train,val,test}.tsv, models/spm_{en,am}.model,
 models/en_word_freq.json and results/dataset_stats.json.
 """
 import json
+import re
 import subprocess
 from collections import Counter
 from pathlib import Path
@@ -30,6 +35,52 @@ def download():
         url = f"https://huggingface.co/datasets/{C.HF_DATASET}/resolve/main/data/{s}-00000-of-00001.parquet"
         print(f"downloading {url}")
         subprocess.run(["curl", "-sSL", "--retry", "8", "--retry-all-errors", "-o", str(out), url], check=True)
+
+
+def download_extra():
+    out = C.RAW_DIR / "mt560.parquet"
+    if not out.exists():
+        url = f"https://huggingface.co/datasets/{C.EXTRA_DATASET}/resolve/main/data/train-00000-of-00001.parquet"
+        print(f"downloading {url}")
+        subprocess.run(["curl", "-sSL", "--retry", "8", "--retry-all-errors", "-o", str(out), url], check=True)
+    return pd.read_parquet(out)
+
+
+def detokenize_en(s):
+    """MT560 English is tokenized ("word , word ?", "( x )", "it 's"); undo that."""
+    s = re.sub(r"\s+([.,!?;:%)\]}])", r"\1", s)
+    s = re.sub(r"([(\[{])\s+", r"\1", s)
+    s = re.sub(r"\s+'\s*(s|t|re|ve|ll|d|m)\b", r"'\1", s)
+    return s.replace(" n't", "n't")
+
+
+def detokenize_am(s):
+    s = s.replace("፡ ፡", "።")          # tokenized full stop
+    return re.sub(r"([(\[{])\s+", r"\1", re.sub(r"\s+([)\]}])", r"\1", s))
+
+
+def match_key(en):
+    """Punctuation- and space-insensitive key used to detect overlapping sentences."""
+    return re.sub(r"[^a-z0-9]", "", en)
+
+
+def clean_extra(d: pd.DataFrame, exclude_keys: set, stats: dict) -> pd.DataFrame:
+    stats["extra_raw_pairs"] = len(d)
+    df = pd.DataFrame({"en": d["eng"].fillna("").map(detokenize_en).map(normalize_en),
+                       "am": d["amh"].fillna("").map(detokenize_am).map(normalize_am)})
+    df = df[(df.en != "") & (df.am != "")]
+    eth_ratio = df["am"].map(lambda s: sum("\u1200" <= ch <= "\u137f" for ch in s) / max(1, len(s)))
+    latin_ratio = df["en"].map(lambda s: sum("a" <= ch <= "z" for ch in s) / max(1, len(s)))
+    # "_" and "%" mark software-localisation strings with placeholders (e.g. "Check _ size")
+    bad = (eth_ratio < 0.5) | (latin_ratio < 0.5) | df.en.str.contains(r"[_%]") | df.am.str.contains(r"[_%]")
+    stats["extra_removed_wrong_script_or_placeholder"] = int(bad.sum())
+    df = df[~bad].drop_duplicates(["en"])
+    keys = df.en.map(match_key)
+    overlap = keys.isin(exclude_keys)
+    stats["extra_removed_overlap_with_habtew"] = int(overlap.sum())
+    df = df[~overlap]
+    stats["extra_clean_pairs"] = len(df)
+    return df.reset_index(drop=True)
 
 
 def load_raw() -> pd.DataFrame:
@@ -145,6 +196,22 @@ def main():
     download()
     df = clean(load_raw(), stats)
     train, val, test = split(df)
+
+    # Extra training data: drop every MT560 sentence that also occurs anywhere in the
+    # habtew corpus (the two share Bible / JW sources), so validation and test stay unseen.
+    extra = clean_extra(download_extra(), set(df.en.map(match_key)), stats)
+    stats["habtew_train_pairs"] = len(train)
+    train = pd.concat([train[["en", "am"]], extra], ignore_index=True)
+    train = train.sample(frac=1, random_state=C.SEED).reset_index(drop=True)
+
+    # habtew only removed exact duplicates, so some validation/test sentences differ from a
+    # training sentence only in punctuation ("sing praises!" / "sing praises."). Drop those.
+    train_keys = set(train.en.map(match_key))
+    for name, d in (("val", val), ("test", test)):
+        near = d.en.map(match_key).isin(train_keys)
+        stats[f"{name}_removed_near_duplicate_of_train"] = int(near.sum())
+    val = val[~val.en.map(match_key).isin(train_keys)].reset_index(drop=True)
+    test = test[~test.en.map(match_key).isin(train_keys)].reset_index(drop=True)
 
     # Tokenizers are learned from the training split only.
     sp_en = train_spm(train["en"], C.MODEL_DIR / "spm_en", C.SPM_VOCAB_EN)

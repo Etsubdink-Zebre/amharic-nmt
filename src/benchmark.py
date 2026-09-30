@@ -29,6 +29,8 @@ def main():
     n_batches_epoch = math.ceil(len(train) / C.BATCH_SIZE)
     out = {"device": str(dev), "batch_size": C.BATCH_SIZE, "timed_batches": TIMED}
     for name, cls in MODELS.items():
+        if not (C.RESULTS_DIR / f"history_{name}.json").exists():
+            continue                                    # only models trained in this run
         torch.manual_seed(0)
         model = cls(sp_en.get_piece_size(), sp_am.get_piece_size()).to(dev).train()
         opt = torch.optim.Adam(model.parameters(), lr=C.LR)

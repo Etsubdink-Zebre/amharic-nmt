@@ -23,7 +23,7 @@ STATIC = Path(__file__).parent / "static"
 async def lifespan(_app):
     # Load both models (+ tokenizers) once, and warm them up so the first
     # user request does not pay for GPU kernel compilation.
-    for name in ("bahdanau", "attention", "seq2seq"):
+    for name in ("bahdanau", "seq2seq"):
         TRANSLATORS[name] = Translator(name)
         TRANSLATORS[name].translate("hello.")
     yield
@@ -34,9 +34,8 @@ app = FastAPI(title="English → Amharic NMT", version="1.0", lifespan=lifespan)
 
 class TranslateRequest(BaseModel):
     text: str = Field(..., min_length=1, max_length=1000, examples=["I am going to the university."])
-    # "bahdanau" = Attention-LSTM (additive attention, the deployed default);
-    # "attention" = Luong-attention ablation; "seq2seq" = basic baseline.
-    model: Literal["bahdanau", "attention", "seq2seq"] = "bahdanau"
+    # "bahdanau" = Attention-LSTM (additive attention, the deployed default); "seq2seq" = baseline.
+    model: Literal["bahdanau", "seq2seq"] = "bahdanau"
     beam: int = Field(5, ge=1, le=10)
     return_attention: bool = False
 

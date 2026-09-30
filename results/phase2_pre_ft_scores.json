@@ -1,0 +1,19 @@
+{
+  "note": "Phase 2 models (habtew + MT560, 6 epochs) before habtew fine-tuning, same test set",
+  "seq2seq": {
+    "bleu_greedy": 4.37,
+    "bleu13a_greedy": 3.38,
+    "chrf_greedy": 15.48,
+    "chrf++_greedy": 14.39,
+    "test_loss": 3.664,
+    "test_perplexity": 39.02
+  },
+  "bahdanau": {
+    "bleu_greedy": 10.06,
+    "bleu13a_greedy": 8.46,
+    "chrf_greedy": 24.04,
+    "chrf++_greedy": 22.8,
+    "test_loss": 3.0053,
+    "test_perplexity": 20.19
+  }
+}

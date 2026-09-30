@@ -11,12 +11,12 @@ import torch
 from src.translator import SCOPE_NOTE, Translator
 
 MODELS = {
-    "Attention-LSTM (Bahdanau)": "bahdanau",
+    "Attention-LSTM": "bahdanau",
     "Seq2Seq-LSTM (baseline)": "seq2seq",
-    "Attention-LSTM (Luong, ablation)": "attention",
 }
-EXAMPLES = ["I am going to the university.", "Thank you very much.", "Where is the hospital?",
-            "My father is a teacher.", "We must help the poor.", "What is your name?"]
+EXAMPLES = ["She is Ethiopian and was born there.", "How much does this book cost?",
+            "The farmers are waiting for the rain.", "Where is the hospital?",
+            "Our school has many students and teachers.", "Thank you very much."]
 
 st.set_page_config(page_title="English → Amharic Translator", page_icon="🌍", layout="centered")
 
@@ -42,7 +42,7 @@ def heatmap_html(r):
 
 
 st.title("English → Amharic Translator")
-st.caption("LSTM encoder–decoder models trained from scratch on 149k English–Amharic sentence pairs.")
+st.caption("LSTM encoder–decoder models trained from scratch on 692k English–Amharic sentence pairs.")
 st.info("**What this translator handles.** " + SCOPE_NOTE, icon="ℹ️")
 
 if "text" not in st.session_state:

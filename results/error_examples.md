@@ -2,170 +2,144 @@
 
 ## Repeated words
 
-- **EN:** i will instruct thee and teach thee in the way which thou shalt go: i will guide thee with mine eye.  
-  **Ref:** ኣይኖቼን በአንተ ላይ አጠናለሁ።  
-  **Seq2Seq-LSTM:** በምስክር መንገድ እወስዳለሁ፤ እኔም እወስዳለሁ፤ እኔም እመልስላለሁ፣ እመልስላለሁ።  
-  **Attn-LSTM (Luong):** መንገድህን መንገድ መንገድህን አመሰግናለሁ፣ መንገድህንም እከተልሃለሁ።  
-  **Attn-LSTM (Bahdanau):** በምሄድበት መንገድ እተማመናለሁ፣ በምስክሩም መንገድ አስተምራችኋለሁ።  
+- **EN:** whiston is also known, especially to bible students, for his translation into english of the writings of first century jewish historian flavius josephus.  
+  **Ref:** ዊስተን በመጽሃፍ ቅዱስ ተማሪዎች ዘንድ ይበልጥ የሚታወቀው በመጀመሪያው መቶ ዘመን የኖረውን አይሁዳዊ ታሪክ ጸሃፊ ይኸውም የፍላቪየስ ጆሴፈስን ጽሁፎች ወደ እንግሊዝኛ በመተርጎሙ ነው።  
+  **Seq2Seq-LSTM:** በተጨማሪም የግሪካውያን ታሪክ ጸሀፊ የሆኑት የግሪክዮስን የመጽሃፍ ቅዱስ ትርጉሞች በስምንተኛው መቶ ዘመን የነበሩ በርካታ ምሁራንን ጨምሮ የአይሁዳውያንን ታሪክ አብራራ።  
+  **Attention-LSTM:** ዊስተንም በተለይ የመጽሃፍ ቅዱስ ተማሪዎች በተለይም በተለይ በመጀመሪያው መቶ ዘመን የነበሩ ጥንታዊ የታሪክ ምሁር የሆኑት ጆሴፈስስ፣ የመጽሃፍ ቅዱስ ተማሪው ጆሴስ ጆሴፍስ ኦቭ ዘ ቨርዥንስ ኦቭ ቨርስቲየስንስ የተባለው መጽሃፍ ቅዱስ ነው።  
 
-- **EN:** michael felt devastated when he realized how inconsiderate and unkind he had been.  
-  **Ref:** ማይክል፣ የፈጸመው ድርጊት ምን ያህል አሳቢነትና ደግነት የጎደለው እንደሆነ ሲገነዘብ በጣም አዘነ።  
-  **Seq2Seq-LSTM:** ሚስቴና የምናውቅ ነገር ምን ያህል እንደሆነ ለማወቅና ስለ እሱ ምን ያህል እንደሚታወቅ ያውቅ ነበር።  
-  **Attn-LSTM (Luong):** ህዝቅያስ፣ ምን ያህል እንደተጨነቁና እንደተናገረችው ተሰምቶት ነበር።  
-  **Attn-LSTM (Bahdanau):** ሚካኤል በንግግሩና በአእምሮው ላይ እንዴት እንደተስፋፋ ሲገነዘብ አልቀረም።  
+- **EN:** (acts 15: 6 11, 13, 14, 28, 29) likely, both jewish and gentile christians appreciated peter's fearlessness in presenting the facts.  
+  **Ref:** (ስራ 15፣ 6 11, 13, 14, 28, 29) አይሁዳውያኑም ሆኑ ከአህዛብ ወገን የመጡ ክርስቲያኖች፣ ጴጥሮስ ማስረጃዎቹን ያለምንም ፍርሃት በማቅረቡ ተደስተው እንደሚሆን ጥርጥር የለውም።  
+  **Seq2Seq-LSTM:** (ስራ 15፣ 13፤ እብራውያን 13፣ 13, 13, 28) እነዚህ ክርስቲያኖች፣ አይሁዳውያን፣ አይሁዳውያንና እህቶቻችንም ቢሆኑ የአይሁዳውያንን እምነት የሚያንጸባርቁት አይሁዳውያን ነበሩ።  
+  **Attention-LSTM:** (ስራ 15፣ 6 11, 13, 14, 28, 29) አይሁዳውያንና ከአህዛብ ወገን የነበሩት አይሁዳውያን ጴጥሮስን እውነታውን በማስፋፋት ረገድ ፍርሃት እንዲያድርባቸው አድርጎታል።  
 
-- **EN:** and abraham set seven ewe lambs of the flock by themselves.  
-  **Ref:** አብርሃምም ሰባት ቄቦች በጎችን ለብቻቸው አቆመ።  
-  **Seq2Seq-LSTM:** አብርሃምም ሰባት በጎችን ሰባት አውራ በጎችን ሰባት አውራ በጎችን ላከ።  
-  **Attn-LSTM (Luong):** አብርሃምም ከመንጋው ጋር ሰባት በሬዎችን አቀረበ።  
-  **Attn-LSTM (Bahdanau):** አብርሃምም ከመንጋው መካከል ከመንጋው መካከል በጎችን ሰባት በጎችን አቀረበ።  
+- **EN:** (acts 14: 17; 17: 26 28) we can become acquainted with our heavenly father and his loving purposes for us by studying his word, the bible.  
+  **Ref:** (የሃዋርያት ስራ 14፣ 17፤ 17፣ 26 28) በተጨማሪም አምላክ ቃሉን መጽሃፍ ቅዱስን ሰጥቶናል፤ መጽሃፍ ቅዱስን በማጥናት በሰማይ ስላለው አባታችን እንዲሁም ለእኛ ስላለው አላማ ማወቅ እንችላለን።  
+  **Seq2Seq-LSTM:** (ስራ 17፣ 28, 17፤ 17፣ 17) አፍቃሪ በሆነው አባታችን አማካኝነት በሰማይ የሚኖረው አባታችንን እንዲሁም ቃሉን የምንወድና ቃሉን የምንጠብቅበት መንገድ ነው።  
+  **Attention-LSTM:** (ስራ 14፣ 17፤ 17፣ 26 28) በሰማይ የሚኖረው አባታችን፣ ቃሉን በማጥናትና ቃሉን በማጥናት እንዲሁም የእሱን ፍቅር እንድናጠናክርልን ያስችለናል።  
 
-- **EN:** the lazy one says: "there is a young lion in the road,a lion in the public square!"  
-  **Ref:** ሰነፍ "በመንገድ ላይ ደቦል አንበሳ፣በአደባባይም አንበሳ አለ!" ይላል።  
-  **Seq2Seq-LSTM:** አንበሳው "በአንበሳ ላይ የሚጮኹ አንበሳ፣በአንበሳም ላይ የሚፈራ አንበሳ ነው!" ይላል።  
-  **Attn-LSTM (Luong):** ንብረቷ " አንበሳ አንበሳ አለ፤ አንበሳ አንበሳም አንበሳ ነው!" ይልሻል።  
-  **Attn-LSTM (Bahdanau):** ሰነፍ ሰው "በመንገድ ላይ ደቦል አንበሳ፣በበአማማ ሜዳ ላይ አንበሳ ነው!" ይላል።  
+- **EN:** this book of divine wisdom can help you set sound priorities, make wise decisions, and endure any present trials with joy and hope.  
+  **Ref:** መለኮታዊ ጥበብ ያለው ይህ መጽሃፍ፣ ቅድሚያ ልትሰጣቸው የሚገቡ ነገሮችን ለይተህ እንድታውቅ፣ ጥበብ የተንጸባረቀበት ውሳኔ እንድታደርግና የሚያጋጥምህን ማንኛውንም ፈተና በደስታና በተስፋ እንድትወጣ ይረዳሃል።  
+  **Seq2Seq-LSTM:** ይህ መለኮታዊ ጥበብ፣ ጥበብና ጥበብ የሚንጸባረቅበት ውሳኔ ማድረግ፣ ጥበብ የሚንጸባረቅበት አካሄድና ጥበብ የተንጸባረቀበት ውሳኔ ማድረግህ ጥበብን እንድታዳብር ይረዳሃል።  
+  **Attention-LSTM:** ይህ መለኮታዊ ጥበብ ያዘለ ምክር ጥሩ እንዲሆን ማድረግ፣ ጥበብ የሚንጸባረቅበት ውሳኔ እንድታደርግና ጥበብ የሚንጸባረቅበትና ፈተናዎችን በጽናት ለመወጣት የሚያስችልህን ነገር በጥበብ እንድትቋቋም ሊረዳህ ይችላል።  
 
 ## Missing words (under-translation)
 
-- **EN:** michael felt devastated when he realized how inconsiderate and unkind he had been.  
-  **Ref:** ማይክል፣ የፈጸመው ድርጊት ምን ያህል አሳቢነትና ደግነት የጎደለው እንደሆነ ሲገነዘብ በጣም አዘነ።  
-  **Seq2Seq-LSTM:** ሚስቴና የምናውቅ ነገር ምን ያህል እንደሆነ ለማወቅና ስለ እሱ ምን ያህል እንደሚታወቅ ያውቅ ነበር።  
-  **Attn-LSTM (Luong):** ህዝቅያስ፣ ምን ያህል እንደተጨነቁና እንደተናገረችው ተሰምቶት ነበር።  
-  **Attn-LSTM (Bahdanau):** ሚካኤል በንግግሩና በአእምሮው ላይ እንዴት እንደተስፋፋ ሲገነዘብ አልቀረም።  
+- **EN:** ending the developing life would be like an abortion.  
+  **Ref:** በዚህ መንገድ፣ በማደግ ላይ ያለው ጽንስ እንዲቋረጥ ያደርጋል፤ ይህም ውርጃ እንደመፈጸም ይቆጠራል።  
+  **Seq2Seq-LSTM:** ህይወትን እንደ ህይወት ማሳደድን ይቀጥላል።  
+  **Attention-LSTM:** በህይወት መተርጎም እንደምወድ ይቆጠር ነበር።  
 
-- **EN:** the time limit for receiving comments shall normally be 60 days, unless otherwise agreed by the concerned states.  
-  **Ref:** ሚመለከታቸው አገራት መካከል የተለየ ስምምነት ከሌለ በስተቀር የምርመራ ረቂቅ ሪፖርት ላይ አስተያየት የመቀበያ ጊዜ ፷ ቀን ብቻ ነው  
-  **Seq2Seq-LSTM:** የጊዜው ክፍያ የሚጠበቅበት ጊዜ የሚጠበቅበት ጊዜ ብቻ ሳይሆን አይቀርም።  
-  **Attn-LSTM (Luong):** ለምናሳየው ጊዜ እልባት የሚጠይቅበት ጊዜ ቢኖርም እንኳ ለምናሳየው ነገር ሁሉ መፍትሄ አይሰጥም ወይም አይፈቅድም ወይም አይን አይፈቅድም ማለት አይደለም።  
-  **Attn-LSTM (Bahdanau):** ለምታምንበት ጊዜ የሚጠበቅበት ጊዜ ቢኖርም ከምንጊዜውም በላይ የሆነ አንድ ቀን፣ ጥፋቱ ከጥፋቱ ጋር የሚመሳሰልበት ጊዜ አለ።  
+- **EN:** how did we come to be?  
+  **Ref:** የሰው ልጆች ወደ ህልውና የመጡት እንዴት ነው?  
+  **Seq2Seq-LSTM:** ታዲያ ምን ማድረግ እንችላለን?  
+  **Attention-LSTM:** ታዲያ እኛስ እንዴት ነን?  
 
-- **EN:** when she finds out, she is angry and calls him inconsiderate.  
-  **Ref:** ሚስቱ ይህን ስታውቅ ስለ እሷ ምንም እንደማያስብ በቁጣ ትናገራለች።  
-  **Seq2Seq-LSTM:** እሷም ስትወስድ፣ በትላልቅም ላይ ትቆጣለች።  
-  **Attn-LSTM (Luong):** እሷም ስትወስድ በጭንቀት ትዋጣለች፤ ደግሞም ትሞታለች።  
-  **Attn-LSTM (Bahdanau):** ስትወጣም ተደናቅፈው በትራብ ትሰራለች።  
+- **EN:** on the other hand, the bible states: "no matter what we ask according to his will, he hears us."  
+  **Ref:** በሌላ በኩል ደግሞ መጽሃፍ ቅዱስ "የምንጠይቀው ነገር ምንም ይሁን ምን ከፈቃዱ ጋር በሚስማማ ሁኔታ እስከለመንን ድረስ ይሰማናል" በማለት ይናገራል።  
+  **Seq2Seq-LSTM:** በሌላ በኩል ደግሞ መጽሃፍ ቅዱስ "የምድርን ነገር ሁሉ ይመረምራል" ይላል።  
+  **Attention-LSTM:** በሌላ በኩል ደግሞ መጽሃፍ ቅዱስ "በእርግጥ የምንጠይቀውን ነገር ሁሉ ይሰማናል" ይላል።  
 
-- **EN:** cursed be he that taketh reward to slay an innocent person. and all the people shall say, amen.  
-  **Ref:** የንጹሁን ሰው ነፍስ ለመግደል ጉቦ የሚቀበል ርጉም ይሁን፤ ህዝቡም ሁሉ አሜን ይላሉ።  
-  **Seq2Seq-LSTM:** ለችግረኛው ሁሉ ይንገሩ።  
-  **Attn-LSTM (Luong):** ለምስክሩ የሚሟገት ሰው ይገደል። ህዝቡም ሁሉ ይንከራተሉ።  
-  **Attn-LSTM (Bahdanau):** ንጹህ ሰውን ይገድል ዘንድ ይከፍታሉ። ህዝቡም ሁሉ ይአሜን።  
+- **EN:** what i discovered strengthened my faith in god.  
+  **Ref:** ይህን ሳደርግ ያወቅሁት ነገር በአምላክ ላይ ያለኝን እምነት አጠናከረው።  
+  **Seq2Seq-LSTM:** በአምላክ ላይ እምነት በማሳደር ረገድ እምነቴን አጠናክሮልኛል።  
+  **Attention-LSTM:** በአምላክ ላይ ያለኝን እምነት አጠናክሮልኛል።  
 
 ## Additional words (over-translation)
 
-- **EN:** i will instruct thee and teach thee in the way which thou shalt go: i will guide thee with mine eye.  
-  **Ref:** ኣይኖቼን በአንተ ላይ አጠናለሁ።  
-  **Seq2Seq-LSTM:** በምስክር መንገድ እወስዳለሁ፤ እኔም እወስዳለሁ፤ እኔም እመልስላለሁ፣ እመልስላለሁ።  
-  **Attn-LSTM (Luong):** መንገድህን መንገድ መንገድህን አመሰግናለሁ፣ መንገድህንም እከተልሃለሁ።  
-  **Attn-LSTM (Bahdanau):** በምሄድበት መንገድ እተማመናለሁ፣ በምስክሩም መንገድ አስተምራችኋለሁ።  
+- **EN:** (acts 1: 8) jesus had earlier prepared them for such an extensive assignment by drawing their attention to good qualities in foreigners.  
+  **Ref:** (ስራ 1፣ 8) ደቀ መዛሙርቱ ይህን ተልእኮ ለመወጣት፣ ኩራትንና ጭፍን ጥላቻን ማስወገድ ነበረባቸው።  
+  **Seq2Seq-LSTM:** (ስራ 1፣ 8) ኢየሱስ፣ ሴቶችን ለማወደስ ብቁ እንዲሆኑላቸው፣ ለስምንት ንብረታቸውን ለማንጸባረቅ ጥረት አድርጓል።  
+  **Attention-LSTM:** (ስራ 1፣ 8) ኢየሱስ ቀደም ሲል በባእድ አገር ያሉ ሰዎች ጥሩ ዜጎችን በመልካም ስራ ላይ እንዲውል በማድረግ ይህን ተልእኮ ተጠቅመዋል።  
 
-- **EN:** he has devastated my whole household.  
-  **Ref:** መላ ቤተሰቤን አጥፍቷል።  
-  **Seq2Seq-LSTM:** በመላው ምድር ላይ የምኖርበት ጊዜ አለ።  
-  **Attn-LSTM (Luong):** መላውን ቤተሰብ ሁሉ ቤተሰቤን አጠናክሮታል።  
-  **Attn-LSTM (Bahdanau):** መላውን ቤተሰብ ረስቷል።  
+- **EN:** now as soon as the 1,000 years have ended, satan will be released from his prison,  
+  **Ref:** ይህ 1,000 ኣመት እንዳበቃም ሰይጣን ከእስራቱ ይፈታል፤  
+  **Seq2Seq-LSTM:** አሁን ከ 40 አመት በኋላ እስከ ሞት ድረስ እስከ ሞት የሚደርስበት ጊዜ አንስቶ እስከ ሞት ይደርስበታል፤  
+  **Attention-LSTM:** አሁን 1,000 አመት ያህል ጊዜው ሰይጣን ከእስር ቤት ይወሰዳል፤  
 
-- **EN:** and abraham set seven ewe lambs of the flock by themselves.  
-  **Ref:** አብርሃምም ሰባት ቄቦች በጎችን ለብቻቸው አቆመ።  
-  **Seq2Seq-LSTM:** አብርሃምም ሰባት በጎችን ሰባት አውራ በጎችን ሰባት አውራ በጎችን ላከ።  
-  **Attn-LSTM (Luong):** አብርሃምም ከመንጋው ጋር ሰባት በሬዎችን አቀረበ።  
-  **Attn-LSTM (Bahdanau):** አብርሃምም ከመንጋው መካከል ከመንጋው መካከል በጎችን ሰባት በጎችን አቀረበ።  
+- **EN:** opposition to translation?  
+  **Ref:** እንዳይተረጎም የተደረገውን ጥረት  
+  **Seq2Seq-LSTM:** ለኢዮጵያን ትርጉም ምን ትርጉም አለው?  
+  **Attention-LSTM:** ለውትድርና ተቃውሞ ተቋቁመው ይሆን?  
 
 ## Named entities
 
-- **EN:** thy seed will i establish for ever, and build up thy throne to all generations. selah.  
-  **Ref:** ዘርህን ለዘላለም አዘጋጃለሁ፣ ዙፋንህንም ለልጅ ልጅ እመሰርታለሁ።  
-  **Seq2Seq-LSTM:** ፍርዶችህ ለዘላለም ጸንቶ ይኖራል፤ ለዘላለምም ለዘላለም ጸንቶ ይኖራል።  
-  **Attn-LSTM (Luong):** ዘርህ ለዘላለም፣ ዘርህንም ለዘላለም እጠብቃለሁ።  
-  **Attn-LSTM (Bahdanau):** ዘርህ ለዘላለም ትጠብቃቸዋለች፣ ዙፋንህንም ከትውልድ እስከ ትውልድ ድረስ አጸናለሁ።  
-
 - **EN:** religion: animist. christian and moslem  
   **Ref:** ሃይማኖት አረመኔ ክርስቲያንና እስላም  
-  **Seq2Seq-LSTM:** ሃይማኖት እስላም አረመኔ  
-  **Attn-LSTM (Luong):** ሃይማኖት እስላም አረመኔና አረመኔ  
-  **Attn-LSTM (Bahdanau):** ሃይማኖት እስላም ክርስቲያንና ጥቂት  
+  **Seq2Seq-LSTM:** ሃይማኖት፣ ሃይማኖትና ሃይማኖት  
+  **Attention-LSTM:** ሃይማኖት ክርስቲያንና ሞሪም  
 
-- **EN:** this regulation shall come in to force as of its publication on megelete oromia.  
-  **Ref:** ይህ ደንብ በመገለተ ኦሮሚያ ላይ ታትሞ ከወጣበት ቀን ጀምሮ ስራ ላይ የሚውል ይሆናል  
-  **Seq2Seq-LSTM:** ይህ አዋጅ በመጪው የፌደራል መንግስት ላይ ተፈጻሚነት ይኖረዋል  
-  **Attn-LSTM (Luong):** ይህ አዋጅ በትውልዶቹ ላይ በሚወጣው ደንብ የሚወሰን ይሆናል  
-  **Attn-LSTM (Bahdanau):** ይህ ደንብ በቦርዱ ጅምስ ላይ በወጣው ጅምት ላይ በሚወጣው መመሪያ መሰረት ይሆናል  
+- **EN:** and the people journeyed from kibrothhattaavah unto hazeroth; and abode at hazeroth.  
+  **Ref:** ህዝቡም ከምኞት መቃብር ወደ ሀጼሮት ተጓዙ በሀጼሮትም ተቀመጡ።  
+  **Seq2Seq-LSTM:** ህዝቡም ወደ ጊልያድ ወደ ናቡር ተራራ ተወሰደ፤ ወደ ንጋትም ሸሸ፤  
+  **Attention-LSTM:** ህዝቡም ከቂብሮትሃትሃላታ ተነስተው ወደ ሃጼሮት ሄዱ።  
 
-- **EN:** sing praises to jehovah, (selah)  
-  **Ref:** ለያህዌ የውዳሴ መዝሙር ዘምሩ፤ (ሴላ)  
-  **Seq2Seq-LSTM:** ለያህዌ የውዳሴ መዝሙር ዘምሩ፤  
-  **Attn-LSTM (Luong):** ለያህዌ የውዳሴ መዝሙር ዘምሩ ()  
-  **Attn-LSTM (Bahdanau):** ለያህዌ የውዳሴ መዝሙር ዘምሩ (ሴላ)  
+- **EN:** religion: animist and christian. defense:although nigeria has been under british protection, it maintains its own military organizations.  
+  **Ref:** ሃይማኖት ብዙ እስላም ክርስቲያንና አረመኔ ምንም እንኳ እስከ ቅርብ ጊዜ በእንግሊዝ ስር ስትተዳደር ብትቆይም ናይጄሪያ የራሷ ወታደራዊ ድርጅት አላት  
+  **Seq2Seq-LSTM:** ሃይማኖት፣ ሃይማኖትና ፖለቲካ፣ የኤርትራን የፖርቲን ክልላዊነትና የድርጅቱ አስተዳደርን በተመለከተ የጋራው ፕሬስን መቃወም  
+  **Attention-LSTM:** ሃይማኖት፣ አቶና አቶ መለስ ዜና፣ የእንግሊዝ ማእከላዊና የእንግሊዝ ድርጅት አባል ሆኖ የታየውን የድርጅቱን ድርጅት ጠብቆ መኖር  
 
-- **EN:** jon: no, i don't recall.  
-  **Ref:** ኢዮብ፣ አይ፣ አላስታውስም።  
-  **Seq2Seq-LSTM:** ኢዮብ፣ አዎ፣ አይቻለሁ።  
-  **Attn-LSTM (Luong):** ኢዮብ፣ አዎ፣ ትክክል አይደለሁም።  
-  **Attn-LSTM (Bahdanau):** ኢዮብ፣ አይ፣ አይናገርም።  
+- **EN:** however, the belgian accent is quite different, so initially we had to overcome a language barrier.  
+  **Ref:** ይሁንና የአነጋገር ቅላጼያቸው ለየት ያለ ነው፤ በመሆኑም መጀመሪያ ላይ ይህን ችግር መቋቋም ነበረብን።  
+  **Seq2Seq-LSTM:** ይሁን እንጂ የፖርት ቋንቋ ተናጋሪዎች የቋንቋው ቋንቋ ተናጋሪው የቋንቋውን ቋንቋ ተጠቅመን ነበር።  
+  **Attention-LSTM:** ይሁን እንጂ የፓርጂያን ቋንቋ ልዩ ቋንቋ ቢሆንም በጣም ተናግሮ የነበረ ቢሆንም መጀመሪያ ላይ ቋንቋውን ማሸነፍ አስፈልጎን ነበር።  
+
+- **EN:** thy seed will i establish for ever, and build up thy throne to all generations. selah.  
+  **Ref:** ዘርህን ለዘላለም አዘጋጃለሁ፣ ዙፋንህንም ለልጅ ልጅ እመሰርታለሁ።  
+  **Seq2Seq-LSTM:** የመረጥከውን ዘር ሁሉ እባርክሃለሁ፤ ዙፋንህንም ለዘላለም አጸናለሁ።  
+  **Attention-LSTM:** ዘርህ ለዘላለም ጸንቶ ይኖራል፤ ዙፋንህንም እስከ ትውልድ ድረስ አጸናለሁ።  
 
 ## Unknown / rare words
 
-- **EN:** michael felt devastated when he realized how inconsiderate and unkind he had been.  
-  **Ref:** ማይክል፣ የፈጸመው ድርጊት ምን ያህል አሳቢነትና ደግነት የጎደለው እንደሆነ ሲገነዘብ በጣም አዘነ።  
-  **Seq2Seq-LSTM:** ሚስቴና የምናውቅ ነገር ምን ያህል እንደሆነ ለማወቅና ስለ እሱ ምን ያህል እንደሚታወቅ ያውቅ ነበር።  
-  **Attn-LSTM (Luong):** ህዝቅያስ፣ ምን ያህል እንደተጨነቁና እንደተናገረችው ተሰምቶት ነበር።  
-  **Attn-LSTM (Bahdanau):** ሚካኤል በንግግሩና በአእምሮው ላይ እንዴት እንደተስፋፋ ሲገነዘብ አልቀረም።  
+- **EN:** richard levins, a distinguished lawyer, told emlyn that he would be run down "like a wolf, without law or game."  
+  **Ref:** የታወቀ ጠበቃ የነበረው ሪቻርድ ሊቨንስ ለኤምለን "ያለምንም ህግ ወይም ደንብ እንደ ተኩላ" ታድኖ እርምጃ እንደሚወሰድበት ነገረው።  
+  **Seq2Seq-LSTM:** የፓርተርንያን የህብረት ዳይሬክተር "የምድርን ወይም የህጻንነትን መንጎቹን ወይም በህብረት ላይ የሚውል ሰው" እንደሆነ ተደርጎ ተገልጿል።  
+  **Attention-LSTM:** የፖርቱጋል ኮሌክትሪክ ኮምፒውተር፣ "አንድ ሰው፣ ያለምንም ሰው ወይም ጨዋታ ሳይወርድ" እንደሚወርድ ገልጾ ነበር።  
 
-- **EN:** these principles, plainly stated centuries ago in god's law to israel, can still be useful in courtrooms today.  
-  **Ref:** ከብዙ መቶ ዘመናት በፊት ለእስራኤላውያን በተሰጠው የአምላክ ህግ ውስጥ በግልጽ የተቀመጡት እነዚህ መመሪያዎች በዛሬው ጊዜም ፍርድ ለመስጠት የሚረዱ ጠቃሚ መመሪያ ሆነው ሊያገለግሉ ይችላሉ።  
-  **Seq2Seq-LSTM:** እነዚህ ሰዎች፣ እስራኤላውያን በምግብና በምስጢርታዊ ድርጊቶች ላይ የተመሰረተው አምላክ እንደሆነ የሚያረጋግጥ ማስረጃ እንደሆነ ይሰማቸዋል።  
-  **Attn-LSTM (Luong):** እነዚህ መመሪያዎች፣ እስራኤላውያን በህብረት በመስራት ውስጥ የአምላክን ህግ በስራ ላይ የሚታዩት በዛሬው ጊዜ በአርማጌዶን ውስጥ ያሉ አንዳንድ መስዋእቶችን ሊቋቋም ይችላል።  
-  **Attn-LSTM (Bahdanau):** እነዚህ መመሪያዎች በዛሬው ጊዜ ያሉ ህግ በአምላክ ህግ ውስጥ በዛሬው ዘመን በዛሬው ዘመን ውስጥ ጠቃሚ የሆኑ አንዳንድ ጠቃሚ ሃሳቦችን ይጠቀሙበታል።  
+- **EN:** to have authority over his princes as he pleasedand to teach his elders wisdom.  
+  **Ref:** ይህም ደስ ባሰኘው መንገድ በመኳንንቱ ላይ እንዲሰለጥን፣ሽማግሌዎቹንም ጥበብ እንዲያስተምር ነው።  
+  **Seq2Seq-LSTM:** በገዢው ላይ ስልጣንና ጥበብ የተሞላበት እርምጃ ይወስዳል፤  
+  **Attention-LSTM:** መኳንንትን ደስ ያሰኛሉ፤ሽማግሌዎቹንም ለማስተማር አስተምሯቸዋል።  
 
-- **EN:** without fear of reprisals in such countries, citizens were free to discuss religious matters and to disagree openly with the established churches.  
-  **Ref:** እንዲህ ባሉ አገሮች ውስጥ የሚኖሩ ሰዎች ቅጣት እንደሚደርስባቸው ሳይፈሩ በሃይማኖታዊ ርእሰ ጉዳዮች ላይ መወያየት እንዲሁም የአብያተ ክርስቲያናትን ትምህርት እንዳልተቀበሉ በይፋ መግለጽ ይችሉ ነበር።  
-  **Seq2Seq-LSTM:** እነዚህ ሰዎች፣ ሃይማኖታዊ መሪዎች፣ ባህልና ባህል ያላቸው ሰዎችም ቢሆን በሃይማኖት ላይ የተመሰረተው አመጽ እንዲስፋፋ ለማድረግ ጥረት አድርገዋል።  
-  **Attn-LSTM (Luong):** እንዲህ ያሉ አገሮችን የሚቃወሙት ሰዎች ከምን አንጻር ነጻ መውጣትና ከሃይል ጋር በተያያዘም ሁኔታው ተመሳሳይ እንደሆነ ግልጽ ነው።  
-  **Attn-LSTM (Bahdanau):** አገሮች አገሮች ከምግብ ጋር በተያያዘም እንኳ ሃይማኖታዊ ጉዳዮችን በተመለከተ ተቃወሙ፤ እንዲሁም ከጉባኤው ጋር የሚስማማ እርምጃ ለመውሰድ ተስማማ።  
+- **EN:** willie and liz sneddon  
+  **Ref:** ዊሊና ሊዝ ስኔደን  
+  **Seq2Seq-LSTM:** ናኮር እና ንዴት  
+  **Attention-LSTM:** ማሪ እና አጽፍን  
 
-- **EN:** when she finds out, she is angry and calls him inconsiderate.  
-  **Ref:** ሚስቱ ይህን ስታውቅ ስለ እሷ ምንም እንደማያስብ በቁጣ ትናገራለች።  
-  **Seq2Seq-LSTM:** እሷም ስትወስድ፣ በትላልቅም ላይ ትቆጣለች።  
-  **Attn-LSTM (Luong):** እሷም ስትወስድ በጭንቀት ትዋጣለች፤ ደግሞም ትሞታለች።  
-  **Attn-LSTM (Bahdanau):** ስትወጣም ተደናቅፈው በትራብ ትሰራለች።  
+- **EN:** and israel journeyed, and spread his tent beyond the tower of edar.  
+  **Ref:** እስራኤልም ከዚያ ተነሳ፣ ድንኳኑንም ከጋዴር ግንብ በስተ ወዲያ ተከለ።  
+  **Seq2Seq-LSTM:** እስራኤልም ወደ ድንኳኑ ወስደው፤ ከዚያም ሌዋውያኑን ሰራ።  
+  **Attention-LSTM:** እስራኤልም ጉዞ ተጎናጸፈው፤ ድንኳኑንም ከሴር ግንብ ይበልጥ አቀና።  
 
 ## Numbers
 
-- **EN:** the time limit for receiving comments shall normally be 60 days, unless otherwise agreed by the concerned states.  
-  **Ref:** ሚመለከታቸው አገራት መካከል የተለየ ስምምነት ከሌለ በስተቀር የምርመራ ረቂቅ ሪፖርት ላይ አስተያየት የመቀበያ ጊዜ ፷ ቀን ብቻ ነው  
-  **Seq2Seq-LSTM:** የጊዜው ክፍያ የሚጠበቅበት ጊዜ የሚጠበቅበት ጊዜ ብቻ ሳይሆን አይቀርም።  
-  **Attn-LSTM (Luong):** ለምናሳየው ጊዜ እልባት የሚጠይቅበት ጊዜ ቢኖርም እንኳ ለምናሳየው ነገር ሁሉ መፍትሄ አይሰጥም ወይም አይፈቅድም ወይም አይን አይፈቅድም ማለት አይደለም።  
-  **Attn-LSTM (Bahdanau):** ለምታምንበት ጊዜ የሚጠበቅበት ጊዜ ቢኖርም ከምንጊዜውም በላይ የሆነ አንድ ቀን፣ ጥፋቱ ከጥፋቱ ጋር የሚመሳሰልበት ጊዜ አለ።  
+- **EN:** (prov. 15: 22) such spiritual people may tell you that the full time ministry provides an education that benefits you throughout life.  
+  **Ref:** (ምሳሌ 15፣ 22) እንዲህ ያሉ መንፈሳዊ ሰዎች፣ የሙሉ ጊዜ አገልግሎት በህይወትህ ሙሉ የሚጠቅምህ ትምህርት እንደሚሰጥህ ይነግሩሃል።  
+  **Seq2Seq-LSTM:** (ምሳሌ 15፣ 22) እንዲህ አይነት ህይወትህ ምንጊዜም ቢሆን መንፈሳዊ እድገት እንዲያደርጉልህ መርዳት ትችላለህ።  
+  **Attention-LSTM:** (ምሳሌ 15፣ 22) እንዲህ ያሉ መንፈሳዊ ሰዎች በሙሉ ጊዜ አገልግሎትህ የሚጠቅም ትምህርት እንድታገኝ ሊገፋፉህ ይችላል።  
 
-- **EN:** 16. why should we not settle for having a bible student read answers from a bible study aid?  
-  **Ref:** 16. አንድ የመጽሃፍ ቅዱስ ተማሪ ከሚጠናው ጽሁፍ ላይ እያነበበ በሚሰጠው መልስ መርካት የሌለብን ለምንድን ነው?  
-  **Seq2Seq-LSTM:** 16. መጽሃፍ ቅዱስን ለማጥናት የሚጠቅመን ለምን እንደሆነ መጽሃፍ ቅዱስ የሚሰጠው ለምንድን ነው?  
-  **Attn-LSTM (Luong):** 16. መጽሃፍ ቅዱስን በማንበብ መጽሃፍ ቅዱሳዊ ጽሁፎች በማንበብ መጽሃፍ ቅዱሳዊ ጽሁፎች ማግኘት የምንችለው ለምንድን ነው?  
-  **Attn-LSTM (Bahdanau):** 16. መጽሃፍ ቅዱስን ማጥናት እንድንችል መጽሃፍ ቅዱሳዊ ጽሁፎችን ማጠናችን የሌለብን ለምንድን ነው?  
+- **EN:** so all the days of kenan amounted to 910 years, and then he died.  
+  **Ref:** ስለዚህ ቃይናን በአጠቃላይ 910 አመት ኖረ፤ ከዚያም ሞተ።  
+  **Seq2Seq-LSTM:** በመሆኑም የ 20 አመት ልጅ ኖረ፤ ከዚያም ሞተ።  
+  **Attention-LSTM:** በመሆኑም የሳንባ ዘመን ሁሉ 910 ኣመት ኖረ፤ ከዚያም ሞተ።  
 
-- **EN:** (proverbs 18: 17) you will be more apt to apologize if you have a realistic view of yourself and your shortcomings.  
-  **Ref:** (ምሳሌ 18፣ 17) ስለ ራስህና ስለ ድክመትህ ትክክለኛ አመለካከት መያዝህ ይቅርታ መጠየቅ ይበልጥ ቀላል እንዲሆንልህ ያደርጋል።  
-  **Seq2Seq-LSTM:** (ምሳሌ 18፣ 17) አንተም የትዳር ጓደኛችሁን የምትወዳቸውን ነገሮችና ስሜታችሁን መቆጣጠር ትችላለህ።  
-  **Attn-LSTM (Luong):** (ምሳሌ 18፣ 17) እንዲህ አይነት አመለካከት ቢያጋጥምህና ለምናሳየው ነገር ጥብቅ መሆን ትችላለህ።  
-  **Attn-LSTM (Bahdanau):** (ምሳሌ 18፣ 17) አንተም ሆንክ ለህክምናና ለልጆቻችሁ አክብሮት ካለህ ይቅርታ መጠየቅ ትችላለህ።  
+- **EN:** (acts 15: 6 11, 13, 14, 28, 29) likely, both jewish and gentile christians appreciated peter's fearlessness in presenting the facts.  
+  **Ref:** (ስራ 15፣ 6 11, 13, 14, 28, 29) አይሁዳውያኑም ሆኑ ከአህዛብ ወገን የመጡ ክርስቲያኖች፣ ጴጥሮስ ማስረጃዎቹን ያለምንም ፍርሃት በማቅረቡ ተደስተው እንደሚሆን ጥርጥር የለውም።  
+  **Seq2Seq-LSTM:** (ስራ 15፣ 13፤ እብራውያን 13፣ 13, 13, 28) እነዚህ ክርስቲያኖች፣ አይሁዳውያን፣ አይሁዳውያንና እህቶቻችንም ቢሆኑ የአይሁዳውያንን እምነት የሚያንጸባርቁት አይሁዳውያን ነበሩ።  
+  **Attention-LSTM:** (ስራ 15፣ 6 11, 13, 14, 28, 29) አይሁዳውያንና ከአህዛብ ወገን የነበሩት አይሁዳውያን ጴጥሮስን እውነታውን በማስፋፋት ረገድ ፍርሃት እንዲያድርባቸው አድርጎታል።  
 
 ## Long sentences
 
-- **EN:** that your error will cost you your lives. for you sent me to jehovah your god, saying, 'pray in our behalf to jehovah our god, and tell us everything that jehovah our god says, and we will do it.'  
-  **Ref:** በደላችሁም ህይወታችሁን እንደሚያሳጣችሁ እወቁ። እንዲህ ስትሉ ወደ ይሆዋ አምላካችሁ ልካችሁኝ ነበርና: 'ወደ አምላካችን ወደ ይሆዋ ስለ እኛ ጸልይ፤ አምላካችን ይሆዋም የሚለውን ነገር ሁሉ ንገረን፤ እኛም የተባልነውን እናደርጋለን።'  
-  **Seq2Seq-LSTM:** ለአባቴ እንዲህ ስትል ወደ ያህዌ ወደ አንተ መጣል 'ያህዌን ወደ አንተ ወደ አንተ ሂድ፤ ደግሞም እንዲህ ብለህ ጠይቅ፤ ደግሞም ወደ አንተ ይቀርባል' ይላል ይሆዋ።  
-  **Attn-LSTM (Luong):** ይህም በህይወትህ ላይ በደል ያመጣህ። ይሆዋ ሆይ፣ እባክህ ስለ አምላካችንና ስለ አምላካችንን ሁሉ እንወስዳለን።  
-  **Attn-LSTM (Bahdanau):** ይህ በደልህ በህይወትህ ላይ ይጣሉ። 'አምላኬን ወደ አምላካችን ወደ ይሆዋ እንጸልይና፣ አምላካችንም አምላካችንን ሁሉ እንመልከት፤ ደግሞም እኛም አምላካችንን እንመልከት' በማለት ወደ ይሆዋ አመጣሃል።  
+- **EN:** he honored jesus in an unexpected way by resurrecting him to "a superior position" and giving him what no one else had received up until that time immortal spirit life! (phil. 2: 9; 1 tim. 6: 16) what an outstanding acknowledgment of jesus' faithful course!  
+  **Ref:** ኢየሱስን ፈጽሞ ባልተጠበቀ መንገድ አክብሮታል፤ ከሞት ካስነሳው በኋላ "የላቀ ቦታ የሰጠው" ከመሆኑም ሌላ እስከዚያ ጊዜ ድረስ ለማንም ተሰጥቶ የማያውቅ የማይሞት መንፈሳዊ ህይወት እንዲያገኝ አድርጓል! (ፊልጵ 2፣ 9፤ 1 ጢሞ 6፣ 16) በእርግጥም ኢየሱስ ለተከተለው የታማኝነት ጎዳና አስደናቂ በሆነ መንገድ እውቅና አግኝቷል!  
+  **Seq2Seq-LSTM:** ኢየሱስ "የምድርን ህይወት" በማለት ጠርቶታል፤ ኢየሱስም "የአባቱ ህይወት" ሲል ጠርቶታል!  
+  **Attention-LSTM:** ኢየሱስ "ለዘላለም ቦታ" ሲል ከሞት በኋላ ምንም አይነት ነገር ሳይኖረው ኢየሱስን ከሞት በማስነሳት ረገድ ኢየሱስን በመደገፍ ምንኛ አስደናቂ ነው! (ኤ 2፣ 9፤ 1 ጢሞ 6፣ 16) ኢየሱስ በታማኝነት ያከናወነውን የታማኝነት ጎዳና እንዴት ያለ ግሩም ምሳሌ ነው!  
 
-- **EN:** they feel much as did peter when he said under inspiration: "praised be the god and father of our lord jesus christ, for according to his great mercy he gave us a new birth to a living hope through the resurrection of jesus christ from the dead, to an incorruptible and undefiled and unfading inheritance.  
-  **Ref:** ጴጥሮስ በመንፈስ መሪነት የሚከተለውን ሃሳብ ሲያሰፍር የነበረው አይነት ስሜት አላቸው፣ "የጌታችን የኢየሱስ ክርስቶስ አምላክና አባት ይወደስ፤ እሱ በታላቅ ምህረቱ በኢየሱስ ክርስቶስ ትንሳኤ አማካኝነት ለህያው ተስፋ እንደ አዲስ ወልዶናልና፤ እንዲሁም ለማይበሰብስ፣ ለማይረክስና ለማይጠፋ ርስት ወልዶናል።  
-  **Seq2Seq-LSTM:** ኢየሱስ ክርስቶስን እንዲህ ብሎ ነበር፣ "ክርስቶስ፣ አምላክና ክርስቶስን ከሞት አስነሳው፤ ምክንያቱም ኢየሱስ ክርስቶስን ከሞት አስነሳው፤ ምክንያቱም ኢየሱስ ክርስቶስን እንደወደደና ለክርስቶስ ፍቅር እንዳለን ማሳየት እንድንችል ከምንም በላይ ለክርስቶስ ፍቅር እንዳለን እናሳያለን።  
-  **Attn-LSTM (Luong):** ጴጥሮስ፣ ኢየሱስ "የሰማይ አባት" እንደሆነና ኢየሱስ ክርስቶስን እንደ ምሳሌ የሚገልጹት እንደ ናዝራዊና ስለ እሱ ሲናገር ተስፋ ሰጥቶታል፤ ምክንያቱም በሰማይ የሚኖረውን ምድር ከሞት እንድንወጣ ሲል ለሞት የሚያበቃ ተስፋ ሰጥቶናል።  
-  **Attn-LSTM (Bahdanau):** ጴጥሮስ በመንፈስ መሪነት እንዲህ ሲል ጸልዮአል: "በጌታችን ኢየሱስ ክርስቶስና የኢየሱስ ክርስቶስ ጌታ ኢየሱስ ክርስቶስን ከሞት በማስነሳት፣ ለክርስቶስ ምህረትና ለክርስቶስ ምህረት አሳልፎ ሰጥቶናል፤ እንዲሁም ከሞት በማስነሳት፣ ለወለድነውም ሆነ ለነፍሳችን ርስት አድርጎ ሰጥቷል።  
+- **EN:** august 31. mr. hammarkskjoeld compilaind that all belgian troops. had not been withdrawn. thirteen african states at leopeldville conference endorsed the united nations' work in the congo and called on mr. lumumba's government to co-operate with united nations  
+  **Ref:** ነሀሴ ፳፭ ቀን ፲፱፻፶፪ ኣ.ም ሚስተር ሀመርሾልድ የቤልጁክ ወታደሮች በሙሉ ፈጽሞ ስላለመውጣታቸው ያላቸውን ቅሬታ አስታወቁ አስራ ሶስት የአፍሪካ ነጻ መንግስታታ በሊዎፖልድቪል ጉባኤያቸው የተባበሩት መንግስታት በኮንጎ ውስጥ የሚፈጽመውን ስራ በመደገፍ የሚስተር ሉሙምባ መንግስት ከተባበሩት መንግስታት ጋር እንዲተባበር ጠየቁ  
+  **Seq2Seq-LSTM:** በአሜሪካ ፕሬዚዳንት የሻእቢያ መንግስት የሻእቢያን መንግስት ንብረቱና የሻእቢያ የሻእቢያ አምባገነን መንግስትን ያቀፈው የሻእቢያ ጦር ድርጅትን ንቀት ፕሬዚዳንት ማእከላዊ ሚኒስትር ማእከላዊ ማእከላዊ ፕሬዚዳንት ፕሬዝክትዌርን ፕሬልስጤት ንስር ፕሬስፒታል  
+  **Attention-LSTM:** ነሀሴ 31 ቀን ጊልድ ጊልያድዋርድዋርስበርግ የተባበሩት መንግስታት ድርጅት በተባበሩት መንግስታት ላይ የተባበሩት መንግስታትን ስራ በበላይነት አቋቋመ።  
 
-- **EN:** "'that is why the word of jehovah the god of israel is: "i did indeed say that your house and the house of your forefather would always walk before me." but now jehovah declares: "it is unthinkable, on my part, because those honoring me i will honor, but those despising me will be treated with contempt."  
-  **Ref:** "'ስለዚህ የእስራኤል አምላክ የይሆዋ ቃል እንዲህ ይላል: "የአንተ ቤትና የአባትህ ቤት ምንጊዜም በፊቴ እንደሚሄዱ ተናግሬ ነበር።" አሁን ግን ይሆዋ እንዲህ ይላል: "ይህ ፈጽሞ የማላስበው ነገር ነው፤ ምክንያቱም የሚያከብሩኝን አከብራለሁ፤ የሚንቁኝ ግን ይናቃሉ።"  
-  **Seq2Seq-LSTM:** "'የእስራኤልን የእስራኤል ቤት እንዲህ አልኩ: 'እኔ ይሆዋ እንዲህ ይላል: "እኔም እኔ ከአንተ ጋር ነኝ" ይላል ይሆዋ።  
-  **Attn-LSTM (Luong):** "'የእስራኤል አምላክ ይሆዋ እንዲህ ይላልና: "የይሆዋ ቃል በፊትህ ጸንቶ ይቀመጥ ነበር፤ እኔም በፊትህ ይገረማሉ። እኔ ይሆዋ ሆይ፣ እኔን የሚፈሩ ሰዎች ክብርና ክብር የሚፈሩ ሰዎች ሁሉ ክብር ያገኛሉ።"  
-  **Attn-LSTM (Bahdanau):** "'የእስራኤል አምላክ ይሆዋ ሆይ፣ እኔና የአባትህ ቤት ምንጊዜም በፊቴ ይሄዳል።" ይላል ይሆዋ ግን "አዎ፣ እኔ የሚከብዱኝ፣ እኔ የሚገዙት ክብር፣ እኔ ግን ክብር ይገባኛል፤ እኔ ግን ክብር ይገባሉ" በማለት ይናገራል።  
+- **EN:** they stood before moses, eleazar the priest, the chieftains, and all the assembly at the entrance of the tent of meeting and said: "our father died in the wilderness, but he was not among the group who banded together against jehovah, the supporters of korah, but he died for his own sin and he did not have any sons.  
+  **Ref:** እነሱም በመገናኛ ድንኳኑ መግቢያ በሙሴ፣ በካህኑ በአልአዛር፣ በአለቆቹ እንዲሁም በመላው ማህበረሰብ ፊት ቆመው እንዲህ አሉ፣ "አባታችን በምድረ በዳ ሞተ፤ ይሁንና እሱ በያህዌ ላይ ለማመጽ ከተባበሩት ከቆሬ ግብረ አበሮች አንዱ አልነበረም፤ እሱ የሞተው በራሱ ሃጢአት ነው፤ ወንዶች ልጆችም አልነበሩትም።  
+  **Seq2Seq-LSTM:** እነሱም ሙሴ ከእስራኤላውያን መካከል አንዱን ተዉ፤ እሱም "ከእንግዲህ ጀምሮ በድንኳኑ ደጃፍ ላይ ተቀመጠ፤ ሆኖም ያህዌ በድንኳኑ ላይ የተቀመጠውን ሰው በድንኳኑ ውስጥ ተቀመጠ።  
+  **Attention-LSTM:** እነሱም ሙሴን በካህኑ በመገናኛ ድንኳኑ መግቢያ ላይ በመገኘት በመገናኛ ድንኳኑ ደጃፍ ላይ ቀርበው እንዲህ አላቸው: "አባቴ በምድረ በዳ ሞተ፤ ሆኖም በሮም ላይ የተቀመጠው በምእራብ ላይ ነበር፤ ሆኖም የሬዛን ደጋፊዎች በሙሉ በያህዌ ፊት ባረከላቸው፤ እሱ ግን የገዛ ልጆቹን አልመለሰም፤ ሆኖም ወንዶች ልጆቹን አላወቀም።  
