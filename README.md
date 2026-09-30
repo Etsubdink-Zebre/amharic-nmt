@@ -13,7 +13,7 @@ LSTM encoder–decoder models for English → Amharic translation: a **basic Seq
 English–Amharic sentence pairs (habtew + OPUS MT560), evaluated on a held-out test set, analysed for
 errors and attention behaviour, and deployed as a **Streamlit** web app and a **FastAPI** REST API.
 
-**Live app:** https://amharic-nmt.streamlit.app · **Full write-up:** [REPORT.md](REPORT.md)
+**Live app:** https://amharic-nmt.streamlit.app · **Full write-up:** [REPORT.md](REPORT.md) ([PDF](REPORT.pdf))
 
 ---
 

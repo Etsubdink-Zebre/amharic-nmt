@@ -68,7 +68,7 @@ the same sentences. `src/prepare_data.py` downloads both corpora.
 | Issue | Count |
 |---|---:|
 | Exact duplicate pairs in raw habtew | 21,568 |
-| …of which are *across* published splits | **21,568**: the entire published validation split is a copy of train/test rows |
+| Duplicate pairs that sit in *different* published splits. All of them are the published validation split, which is a copy of train/test rows | **21,568** |
 | Empty sentences | 7 |
 | Pairs that are almost entirely digits (bare scripture citations like `luke 18: 9 14.`) | 6,290 |
 | Further duplicates after normalization | 41,319 |
