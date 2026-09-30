@@ -3,12 +3,22 @@
 Run locally:  streamlit run streamlit_app.py
 Deployed on Streamlit Community Cloud from this repository.
 """
+import hashlib
 import html
+from pathlib import Path
 
 import streamlit as st
 import torch
 
+import src.translator
 from src.translator import SCOPE_NOTE, Translator, apply_suggestions
+
+# Streamlit Cloud reloads changed code without restarting the process, so cached
+# Translator objects would keep running the old code. Keying the cache on the
+# source of the inference modules rebuilds them whenever that code changes.
+CODE_VERSION = hashlib.md5(b"".join(
+    (Path(src.translator.__file__).parent / f).read_bytes()
+    for f in ("translator.py", "models.py", "text.py", "config.py"))).hexdigest()
 
 MODELS = {
     "Attention-LSTM": "bahdanau",
@@ -21,8 +31,8 @@ EXAMPLES = ["She is Ethiopian and was born there.", "How much does this book cos
 st.set_page_config(page_title="English → Amharic Translator", page_icon="🌍", layout="centered")
 
 
-@st.cache_resource(show_spinner="Loading model…")
-def get_translator(name):
+@st.cache_resource(show_spinner="Loading model…", max_entries=2)
+def get_translator(name, code_version):
     # CPU is plenty for single sentences and is what the cloud host provides.
     torch.set_num_threads(2)
     return Translator(name, torch.device("cpu"))
@@ -61,13 +71,13 @@ beam = c2.selectbox("Beam size", [1, 3, 5, 8], index=2)
 
 if st.button("Translate", type="primary") or text:
     if text.strip():
-        r = get_translator(MODELS[model_label]).translate(text.strip(), beam=beam)
+        r = get_translator(MODELS[model_label], CODE_VERSION).translate(text.strip(), beam=beam)
         st.markdown(f"<p style='font-size:2rem;line-height:1.5;margin:.5rem 0'>{html.escape(r['translation'])}</p>",
                     unsafe_allow_html=True)
         st.caption(f"{model_label} · beam {beam} · {r['latency_ms']} ms")
         for w in r["warnings"]:
             st.warning(w, icon="⚠️")
-        if r["suggestions"]:
+        if r.get("suggestions"):
             corrected = apply_suggestions(text.strip(), r["suggestions"])
             st.button(f"Did you mean: “{corrected}”? Translate that instead",
                       on_click=lambda c=corrected: st.session_state.update(text=c))
