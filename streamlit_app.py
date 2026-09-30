@@ -8,7 +8,7 @@ import html
 import streamlit as st
 import torch
 
-from src.translator import SCOPE_NOTE, Translator
+from src.translator import SCOPE_NOTE, Translator, apply_suggestions
 
 MODELS = {
     "Attention-LSTM": "bahdanau",
@@ -67,6 +67,10 @@ if st.button("Translate", type="primary") or text:
         st.caption(f"{model_label} · beam {beam} · {r['latency_ms']} ms")
         for w in r["warnings"]:
             st.warning(w, icon="⚠️")
+        if r["suggestions"]:
+            corrected = apply_suggestions(text.strip(), r["suggestions"])
+            st.button(f"Did you mean: “{corrected}”? Translate that instead",
+                      on_click=lambda c=corrected: st.session_state.update(text=c))
         if "attention" in r:
             with st.expander("Attention heatmap (rows = Amharic output, columns = English input)", expanded=True):
                 st.markdown(heatmap_html(r), unsafe_allow_html=True)

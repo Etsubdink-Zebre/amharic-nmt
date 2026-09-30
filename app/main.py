@@ -45,6 +45,7 @@ class TranslateResponse(BaseModel):
     model: str
     latency_ms: float
     warnings: list[str] = []          # set when the input is outside the training scope
+    suggestions: dict[str, str] = {}  # likely typos → closest training word ("switherland": "switzerland")
     src_tokens: list[str] | None = None
     tgt_tokens: list[str] | None = None
     attention: list[list[float]] | None = None
@@ -67,7 +68,7 @@ def translate(req: TranslateRequest):
         raise HTTPException(422, "text is empty")
     r = TRANSLATORS[req.model].translate(text, beam=req.beam)
     if not req.return_attention:
-        r = {k: r[k] for k in ("translation", "model", "latency_ms", "warnings")}
+        r = {k: r[k] for k in ("translation", "model", "latency_ms", "warnings", "suggestions")}
     return r
 
 

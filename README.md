@@ -134,6 +134,12 @@ Both apps show this note. Each translation also comes with **warnings** when the
 (or never) in the training data. The counts are in `models/en_word_freq.json`. The API returns
 them in a `warnings` list.
 
+**Spelling suggestions.** When a word never appears in the training data but is one or two typos
+away from a common training word, the apps suggest the fix ("switherland" → "switzerland",
+"hospitl" → "hospital"). Streamlit offers a one-click "Did you mean …? Translate that instead" button,
+and the API returns the fixes in a `suggestions` object. Distance is Damerau–Levenshtein, so a swapped
+pair of letters counts as one typo ("thnak" → "thank").
+
 ### Deploying the Streamlit app
 
 The app is live at https://amharic-nmt.streamlit.app and redeploys on every push to `main`. To deploy your own copy:

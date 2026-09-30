@@ -1,6 +1,8 @@
 """Inference pipeline: raw English text → normalized → SentencePiece ids →
 model decoding → detokenized Amharic. Used by evaluation, analysis and the app."""
+import difflib
 import json
+import re
 import time
 
 import torch
@@ -24,6 +26,74 @@ def load_word_freq():
     return json.loads(path.read_text()) if path.exists() else {}
 
 
+def _common_words_by_length(word_freq):
+    """Well-attested training words (≥ RARE_WORD_COUNT occurrences), grouped by length."""
+    by_len = {}
+    for w, n in word_freq.items():
+        if n >= C.RARE_WORD_COUNT:
+            by_len.setdefault(len(w), []).append(w)
+    return by_len
+
+
+def edit_distance(a, b, limit=2):
+    """Damerau–Levenshtein (optimal string alignment) distance; a swap of two neighbouring
+    letters counts as one typo. Returns limit + 1 as soon as the distance must exceed limit."""
+    if abs(len(a) - len(b)) > limit:
+        return limit + 1
+    prev2, prev = None, list(range(len(b) + 1))
+    for i in range(1, len(a) + 1):
+        cur = [i] + [0] * len(b)
+        for j in range(1, len(b) + 1):
+            cost = a[i - 1] != b[j - 1]
+            cur[j] = min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + cost)
+            if i > 1 and j > 1 and a[i - 1] == b[j - 2] and a[i - 2] == b[j - 1]:
+                cur[j] = min(cur[j], prev2[j - 2] + 1)
+        if min(cur) > limit:
+            return limit + 1
+        prev2, prev = prev, cur
+    return prev[-1]
+
+
+def suggest_spellings(words, word_freq):
+    """{unseen word: closest common training word} for likely typos ("switherland" → "switzerland").
+    Closest = fewest edits (1 for short words, up to 2 for words of 6+ letters); ties prefer a
+    same-length word (a mistyped letter), then the more frequent word."""
+    if not word_freq:
+        return {}
+    key = id(word_freq)
+    if key not in _SUGGEST_INDEX:
+        _SUGGEST_INDEX[key] = _common_words_by_length(word_freq)
+    by_len = _SUGGEST_INDEX[key]
+    out = {}
+    for w in words:
+        if w in word_freq or len(w) < 4:
+            continue
+        limit = 1 if len(w) < 6 else 2
+        best = None
+        for n in range(len(w) - limit, len(w) + limit + 1):
+            for c in by_len.get(n, []):
+                d = edit_distance(w, c, limit)
+                if d <= limit:
+                    rank = (d, len(c) != len(w), -word_freq[c])
+                    if best is None or rank < best[0]:
+                        best = (rank, c)
+        if best:
+            out[w] = best[1]
+    return out
+
+
+_SUGGEST_INDEX = {}
+
+
+def apply_suggestions(text, suggestions):
+    """Rewrite `text` with the suggested spellings, keeping a leading capital letter."""
+    for wrong, right in suggestions.items():
+        def fix(m, right=right):
+            return right.capitalize() if m.group(0)[0].isupper() else right
+        text = re.sub(rf"\b{re.escape(wrong)}\b", fix, text, flags=re.IGNORECASE)
+    return text
+
+
 def scope_warnings(text, word_freq):
     """Plain-language warnings when an input is outside what the models were trained on."""
     words = WORD_RE.findall(normalize_en(text))
@@ -42,8 +112,12 @@ def scope_warnings(text, word_freq):
         unseen = sorted({w for w in words if w not in word_freq})
         rare = sorted({w for w in words if 0 < word_freq.get(w, 0) < C.RARE_WORD_COUNT})
         if unseen:
-            warnings.append("Never seen in the training data: " + ", ".join(f'"{w}"' for w in unseen)
-                            + ". The model cannot know these words and will guess.")
+            msg = ("Never seen in the training data: " + ", ".join(f'"{w}"' for w in unseen)
+                   + ". The model cannot know these words and will guess.")
+            fixes = suggest_spellings(unseen, word_freq)
+            if fixes:
+                msg += " Did you mean " + ", ".join(f'"{v}"' for v in fixes.values()) + "?"
+            warnings.append(msg)
         if rare:
             warnings.append("Rare in the training data: "
                             + ", ".join(f'"{w}" ({word_freq[w]}×)' for w in rare)
@@ -109,6 +183,7 @@ class Translator:
             "tgt_tokens": self.sp_am.id_to_piece(ids_clean) + ["</s>"],
             "latency_ms": round((time.perf_counter() - t0) * 1000, 1),
             "warnings": scope_warnings(sentence, self.word_freq),
+            "suggestions": suggest_spellings(WORD_RE.findall(normalize_en(sentence)), self.word_freq),
         }
         if attn is not None:
             result["attention"] = attn[:len(ids_clean) + 1].tolist()

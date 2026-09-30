@@ -461,7 +461,7 @@ that share the same inference pipeline:
 
 | Endpoint | Purpose |
 |---|---|
-| `POST /translate` | `{"text": "I am going to the university."}` → `{"translation": "ወደ ዩኒቨርሲቲ ገብቼ እሄዳለሁ።", "model": "bahdanau", "latency_ms": 223, "warnings": []}`. Optional fields: `model` (`bahdanau` = Attention-LSTM, the default, or `seq2seq`), `beam` (1–10, default 5) and `return_attention` (adds tokens and the attention matrix). Invalid input → HTTP 422. |
+| `POST /translate` | `{"text": "I am going to the university."}` → `{"translation": "ወደ ዩኒቨርሲቲ ገብቼ እሄዳለሁ።", "model": "bahdanau", "latency_ms": 223, "warnings": [], "suggestions": {}}`. Optional fields: `model` (`bahdanau` = Attention-LSTM, the default, or `seq2seq`), `beam` (1–10, default 5) and `return_attention` (adds tokens and the attention matrix). Invalid input → HTTP 422. |
 | `GET /scope` | The plain-language description of what the translator handles |
 | `GET /health` | Liveness and loaded models |
 | `GET /` | Web UI with a live attention heatmap |
@@ -485,6 +485,15 @@ everyday, news and religious topics). They also attach a warning to any input th
 
 The per-word training counts ship with the models in `models/en_word_freq.json`. The warnings do
 not change the translation; they tell the user when not to trust it.
+
+**Spelling suggestions.** A common cause of unseen words is a typo. For example, "I love switherland."
+became እግሮቼን እወዳለሁ። ("I love my legs"), because the misspelled name is split into `s + with + er + land`.
+The correct spelling, "Switzerland" (161 occurrences in training), gives ስዊዘርላንድን እወዳለሁ።. For every unseen
+word, the apps therefore look for a well-attested training word (≥ 30 occurrences) within one edit
+(two for words of six or more letters). The distance is Damerau–Levenshtein, so a swapped pair
+of letters counts as one edit. Ties go to a same-length word, then to the more frequent word. If a
+match is found, the apps suggest it ("Did you mean 'switzerland'?"), and Streamlit offers to translate
+the corrected sentence in one click.
 
 The deployment needs only `models/` (≈ 125 MB: two checkpoints, tokenizers and word counts),
 `src/`, `requirements.txt` (CPU PyTorch) and either `streamlit_app.py` or `app/` (also packaged as

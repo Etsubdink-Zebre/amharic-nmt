@@ -89,6 +89,17 @@ async function go() {
     $("out").textContent = r.translation;
     $("meta").textContent = `${r.model} · ${r.latency_ms} ms`;
     $("warn").innerHTML = (r.warnings || []).map(w => `<div class="warn">⚠ ${esc2(w)}</div>`).join("");
+    const sug = r.suggestions || {};
+    if (Object.keys(sug).length) {
+      let fixed = text;
+      for (const [bad, good] of Object.entries(sug))
+        fixed = fixed.replace(new RegExp(`\\b${bad}\\b`, "gi"), m => m[0] === m[0].toUpperCase() ? good[0].toUpperCase() + good.slice(1) : good);
+      const b = document.createElement("button");
+      b.textContent = `Did you mean: “${fixed}”? Translate that instead`;
+      b.style.marginTop = "10px";
+      b.onclick = () => { $("text").value = fixed; go(); };
+      $("warn").appendChild(b);
+    }
     $("heat").innerHTML = heatmap(r);
   } catch (e) { $("out").textContent = "Error: " + e.message; }
   $("go").disabled = false;
