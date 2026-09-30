@@ -5,6 +5,7 @@ Deployed on Streamlit Community Cloud from this repository.
 """
 import hashlib
 import html
+import re
 from pathlib import Path
 
 import streamlit as st
@@ -72,15 +73,25 @@ beam = c2.selectbox("Beam size", [1, 3, 5, 8], index=2)
 if st.button("Translate", type="primary") or text:
     if text.strip():
         r = get_translator(MODELS[model_label], CODE_VERSION).translate(text.strip(), beam=beam)
+
+        # Spelling suggestion first, directly under the input, so it is the first thing seen.
+        if r.get("suggestions"):
+            corrected = apply_suggestions(text.strip(), r["suggestions"])
+            shown = html.escape(corrected)
+            for right in set(r["suggestions"].values()):
+                shown = re.sub(rf"\b({re.escape(right)})\b", r"<b>\1</b>", shown, flags=re.IGNORECASE)
+            with st.container(border=True):
+                left, right_col = st.columns([3, 2], vertical_alignment="center")
+                left.markdown(f"<div style='font-size:1.15rem'>🔎 Did you mean: <i>{shown}</i></div>",
+                              unsafe_allow_html=True)
+                right_col.button("Translate the corrected sentence", type="primary", use_container_width=True,
+                                 on_click=lambda c=corrected: st.session_state.update(text=c))
+
         st.markdown(f"<p style='font-size:2rem;line-height:1.5;margin:.5rem 0'>{html.escape(r['translation'])}</p>",
                     unsafe_allow_html=True)
         st.caption(f"{model_label} · beam {beam} · {r['latency_ms']} ms")
         for w in r["warnings"]:
-            st.warning(w, icon="⚠️")
-        if r.get("suggestions"):
-            corrected = apply_suggestions(text.strip(), r["suggestions"])
-            st.button(f"Did you mean: “{corrected}”? Translate that instead",
-                      on_click=lambda c=corrected: st.session_state.update(text=c))
+            st.warning(re.sub(r" Did you mean .*\?$", "", w), icon="⚠️")   # the suggestion is shown above
         if "attention" in r:
             with st.expander("Attention heatmap (rows = Amharic output, columns = English input)", expanded=True):
                 st.markdown(heatmap_html(r), unsafe_allow_html=True)

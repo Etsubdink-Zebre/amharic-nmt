@@ -28,6 +28,10 @@
   .examples button { font-size:.85rem; cursor:pointer }
   .heat { overflow-x:auto; margin-top:12px }
   .scope { font-size:.92rem; color:var(--muted) } .scope b { color:var(--ink) }
+  .sug { display:flex; gap:12px; align-items:center; justify-content:space-between; flex-wrap:wrap;
+         margin-bottom:14px; padding:12px 14px; border-radius:10px; border:2px solid var(--accent);
+         background:rgba(31,111,235,.10); font-size:1.05rem }
+  .sug button { background:var(--accent); color:#fff; border-color:var(--accent); font-weight:600; cursor:pointer }
   .warn { margin-top:10px; padding:10px 12px; border-radius:8px; font-size:.92rem;
           background:rgba(234,160,40,.14); border:1px solid rgba(234,160,40,.45) }
   table.att { border-collapse:collapse; font-size:.75rem }
@@ -54,6 +58,7 @@
   </div>
 
   <div class="card">
+    <div id="sug"></div>
     <div class="out" id="out"></div>
     <div class="meta" id="meta"></div>
     <div id="warn"></div>
@@ -80,7 +85,7 @@ function heatmap(r) {
 
 async function go() {
   const text = $("text").value.trim(); if (!text) return;
-  $("go").disabled = true; $("out").textContent = "…"; $("heat").innerHTML = ""; $("warn").innerHTML = "";
+  $("go").disabled = true; $("out").textContent = "…"; $("heat").innerHTML = ""; $("warn").innerHTML = ""; $("sug").innerHTML = "";
   try {
     const res = await fetch("/translate", { method:"POST", headers:{"Content-Type":"application/json"},
       body: JSON.stringify({ text, model:$("model").value, beam:+$("beam").value, return_attention:true }) });
@@ -88,17 +93,19 @@ async function go() {
     if (!res.ok) throw new Error(JSON.stringify(r.detail));
     $("out").textContent = r.translation;
     $("meta").textContent = `${r.model} · ${r.latency_ms} ms`;
-    $("warn").innerHTML = (r.warnings || []).map(w => `<div class="warn">⚠ ${esc2(w)}</div>`).join("");
+    $("warn").innerHTML = (r.warnings || []).map(w => `<div class="warn">⚠ ${esc2(w.replace(/ Did you mean .*\?$/, ""))}</div>`).join("");
     const sug = r.suggestions || {};
     if (Object.keys(sug).length) {
-      let fixed = text;
-      for (const [bad, good] of Object.entries(sug))
-        fixed = fixed.replace(new RegExp(`\\b${bad}\\b`, "gi"), m => m[0] === m[0].toUpperCase() ? good[0].toUpperCase() + good.slice(1) : good);
-      const b = document.createElement("button");
-      b.textContent = `Did you mean: “${fixed}”? Translate that instead`;
-      b.style.marginTop = "10px";
-      b.onclick = () => { $("text").value = fixed; go(); };
-      $("warn").appendChild(b);
+      let fixed = text, shown = esc2(text);
+      for (const [bad, good] of Object.entries(sug)) {
+        const re = new RegExp(`\\b${bad}\\b`, "gi");
+        const pick = m => m[0] === m[0].toUpperCase() ? good[0].toUpperCase() + good.slice(1) : good;
+        fixed = fixed.replace(re, pick);
+        shown = shown.replace(re, m => `<b>${pick(m)}</b>`);
+      }
+      $("sug").innerHTML = `<div class="sug"><span>🔎 Did you mean: <i>${shown}</i></span>` +
+                           `<button id="sugbtn">Translate the corrected sentence</button></div>`;
+      $("sugbtn").onclick = () => { $("text").value = fixed; go(); };
     }
     $("heat").innerHTML = heatmap(r);
   } catch (e) { $("out").textContent = "Error: " + e.message; }
